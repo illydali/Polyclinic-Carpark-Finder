@@ -18,3 +18,8 @@ async function locationData() {
     return response.data.results;
 }
 
+async function getLots () {
+    let response = await axios.get("https://api.data.gov.sg/v1/transport/carpark-availability");
+    return response.data.items[0].carpark_data;
+}
+console.log(getLots());
