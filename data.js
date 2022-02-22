@@ -18,8 +18,12 @@ async function locationData() {
     return response.data.results;
 }
 
-async function getLots () {
-    let response = await axios.get("https://api.data.gov.sg/v1/transport/carpark-availability");
-    return response.data.items[0].carpark_data;
+
+proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
+
+
+async function getLots() {
+    let response = await axios.get("result.json");
+    return response.data;
 }
-console.log(getLots());
+
