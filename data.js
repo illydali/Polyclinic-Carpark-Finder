@@ -27,3 +27,4 @@ async function getLots() {
     return response.data;
 }
 
+

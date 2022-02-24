@@ -24,7 +24,6 @@ let heartIcon = L.icon({
 });
 
 
-
 window.addEventListener("DOMContentLoaded", async function () {
     let location = await locationData();
     let markerClusterLayer = L.markerClusterGroup();
@@ -33,9 +32,18 @@ window.addEventListener("DOMContentLoaded", async function () {
         let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude];
         let marker = L.marker(polyCoordinates, { icon: heartIcon });
         marker.bindPopup(`
-        <div>${eachPoly.name}</div>
-        <div>${eachPoly.location.address}</div>
-        <div>${eachPoly.location.postcode}</div>`)
+        <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">${eachPoly.name}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">${eachPoly.location.address} ${eachPoly.location.postcode}</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">Check nearest carpark</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+        </div>`)
+
+
+        // <div>${eachPoly.location.postcode}</div>`)
         marker.addTo(markerClusterLayer);
 
     } markerClusterLayer.addTo(map);
@@ -56,32 +64,34 @@ window.addEventListener("DOMContentLoaded", async function () {
     let transformed = [];
     for (let eachLot of xyCoords) {
         let points = proj4("EPSG:3414").inverse([Number(eachLot.x), Number(eachLot.y)]);
-        
+
         let newCoords = {
             "x": points[1],
             "y": points[0],
         }
         transformed.push(newCoords)
     }
-    console.log(transformed)
+    
     let testgroup = L.layerGroup()
     for (let xy of transformed) {
         let lotCoords = [xy.x, xy.y]
-        console.log(lotCoords)
-        
         let circle = L.circle(lotCoords, {
-            color: "red",
+            color: "lightgrey",
             radius: 200,
-            fillColor:'orange',
-            fillOpacity:0.5,
+            fillColor: 'grey',
+            fillOpacity: 0.2,
         })
         circle.addTo(testgroup)
-        // lotMarker.addTo(lotMarkerCluster);
-        // lotMarker.bindPopup(`<div>${parkingLots.car_park_no}</div>`)
-        // let c = L.circle(parkingLots, {
-        // color: "red",
-        // fillColor: "green",
-        // fillOpacity: 0.5,
-        // radius: 250
-    }testgroup.addTo(map);
+        
+    } testgroup.addTo(map);
 })
+
+document.querySelector("#search-btn").addEventListener("click", function () {
+    alert("Hello")
+    let search = document.querySelector("#search-input").value;
+    console.log(search)
+})
+
+
+
+
