@@ -13,85 +13,99 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
 
 let heartIcon = L.icon({
-    iconUrl: '/icons/marker.png',
-    // shadowUrl: 'leaf-shadow.png',
-
-    iconSize: [38, 95], // size of the icon
-    // shadowSize:   [50, 64], // size of the shadow
-    iconAnchor: [22, 94], // point of the icon which will correspond to marker's location
-    // shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor: [-3, -76] // point from which the popup should open relative to the iconAnchor
+    iconUrl: '/icons/poly-blood.svg',
+    iconSize: [30,30],
+    iconAnchor: [22, 94], 
+    popupAnchor: [-3, -76] 
 });
 
+let parkingIcon = L.icon({
+    iconUrl: '/icons/parking-pin.svg',
+    iconSize: [30,30],
+    iconAnchor: [22, 94], 
+    popupAnchor: [-3, -76] 
+})
+
+let polyLayer = L.markerClusterGroup();
+// let parkingGroup = L.layerGroup();
+
+let parkingGroup = L.markerClusterGroup()
 
 window.addEventListener("DOMContentLoaded", async function () {
+
     let location = await locationData();
-    let markerClusterLayer = L.markerClusterGroup();
+    // let polyLayer = L.markerClusterGroup();
 
     for (let eachPoly of location) {
         let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude];
         let marker = L.marker(polyCoordinates, { icon: heartIcon });
         marker.bindPopup(`
-        <div class="card" style="width: 18rem;">
-        <div class="card-body">
-            <h5 class="card-title">${eachPoly.name}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">${eachPoly.location.address} ${eachPoly.location.postcode}</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Check nearest carpark</a>
-            <a href="#" class="card-link">Another link</a>
+        <div class="card bg-light border-0 m-0 p-0" style="width: 10rem">
+        <div class="card-body h-100">
+            <p class="card-title h6">${eachPoly.name}</p>
+            <p class="card-subtitle h6 mb-2 text-muted">${eachPoly.location.address} ${eachPoly.location.postcode}</p>
+            <a href="#" class="card-link">Find nearest carpark</a>
         </div>
         </div>`)
+        marker.addTo(polyLayer);
 
-
-        // <div>${eachPoly.location.postcode}</div>`)
-        marker.addTo(markerClusterLayer);
-
-    } markerClusterLayer.addTo(map);
+    } polyLayer.addTo(map);
 
     let parkingLots = await getLots();
-    let xyCoords = [];
+    let carparkInfo = [];
+
+    // converting  x/y coords from SVG21 to lat/long, 
+    // creating new object to store name, add and lat/long
     for (let eachLot in parkingLots) {
         let x = parkingLots[eachLot].x_coord;
         let y = parkingLots[eachLot].y_coord;
-        let points = {
-            "x": x,
-            "y": y
-        }
-        xyCoords.push(points)
-    }
-    console.log(xyCoords)
-    // let lotMarkerCluster = L.markerClusterGroup()
-    let transformed = [];
-    for (let eachLot of xyCoords) {
-        let points = proj4("EPSG:3414").inverse([Number(eachLot.x), Number(eachLot.y)]);
+        let coordinates = proj4("EPSG:3414").inverse([Number(x), Number(y)])
 
-        let newCoords = {
-            "x": points[1],
-            "y": points[0],
-        }
-        transformed.push(newCoords)
-    }
-    
-    let testgroup = L.layerGroup()
-    for (let xy of transformed) {
-        let lotCoords = [xy.x, xy.y]
-        let circle = L.circle(lotCoords, {
-            color: "lightgrey",
-            radius: 200,
-            fillColor: 'grey',
-            fillOpacity: 0.2,
-        })
-        circle.addTo(testgroup)
+        let a = parkingLots[eachLot].car_park_no;
+        let b = parkingLots[eachLot].address;
         
-    } testgroup.addTo(map);
+        let data = {
+
+            "cp_name" : a,
+            "cp_add" : b,
+            "coordinates" : coordinates
+        }
+        carparkInfo.push(data)
+    } 
+
+    for (let xy of carparkInfo) {
+        let lotCoords = [xy.coordinates[1], xy.coordinates[0]]
+        let marker = L.marker(lotCoords, { icon: parkingIcon });
+        marker.bindPopup(`
+        ${xy.cp_name} <br> ${xy.cp_add}
+        `)
+        
+
+        marker.addTo(parkingGroup) 
+    
+    }
+     parkingGroup.addTo(map);
 })
 
-document.querySelector("#search-btn").addEventListener("click", function () {
-    alert("Hello")
-    let search = document.querySelector("#search-input").value;
-    console.log(search)
-})
+// document.querySelector("#click").addEventListener("click", function () {
+//     document.querySelector("click").style.display="none"
+// })
 
+let layerCheckbox = {
+    "Polyclinics" : polyLayer,
+    "Parking Lots" : parkingGroup,
+}
+
+L.control.layers({}, layerCheckbox).addTo(map);
+
+
+// navigator.geolocation.getCurrentPosition(position => {
+//     const { coords: { latitude, longitude } } = position;
+//     var marker = new L.marker([latitude, longitude], {
+//       draggable: true,
+//       autoPan: true
+//     }).addTo(map);
+// })
 
 
 

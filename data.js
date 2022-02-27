@@ -26,5 +26,3 @@ async function getLots() {
     let response = await axios.get("result.json");
     return response.data;
 }
-
-
