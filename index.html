@@ -28,15 +28,38 @@
 </head>
 
 <body>
-  <div id="map-container">
-    <!-- <button class="btn btn-sm btn warning rounded-pill" id="click" a href="#main-map">Click</button> -->
+  <div id="map-container" class="container-fluid">
     <div id="main-map">
 
+    
+      <div id="search-tab">
+        <div class="accordion" id="mySearch">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Search for nearby carpark
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <input id="search-input" type="text" placeholder="Polyclinic Name"/>
+                <button class="btn btn-sm btn-warning rounded-pill" id="click" a href="#main-map">Search Now</button>
+              </div>
+              <div id="search-results">
+  
+              </div>
+            </div>
+          </div>
     </div>
-    <nav class="navbar navbar-light navbar-expand-sm bg-dark fixed-bottom">
+    
+      
+    </div>
+    <nav class="navbar navbar-light navbar-expand-sm bg-light fixed-bottom">
       Copyright @ ... Credits @ ...
     </nav>
+
   </div>
+
 
 
   <!-- Leaflet -->

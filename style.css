@@ -1,19 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Lora&family=Roboto:wght@100&family=Source+Sans+Pro:wght@200&display=swap');
 
 
-body {
+/* body {
     background-color: linen;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
-/* #map-container {
-    position: relative;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
 } */
 
 #main-map {
     height: 100vh;
+}
+
+#map-container {
+    position: relative;
+}
+
+#search-tab {
+    position:absolute;
+    bottom: 30px;
+    left: 0px;
+    z-index: 314159;
+    background-color:rgba(255,255,255,0.5);
+    min-width:300px;
+    min-height:50px;
+    
+}
+
+#search-btn {
+    margin-left: 10px;
+}
+
+.search-result {
+    padding: 10px;
 }
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip{
@@ -29,16 +48,24 @@ body {
 }
 
 .leaflet-control-layers-toggle {
-    font-family: 'Cormorant Garamond', serif;;
+    font-family: 'Cormorant Garamond', serif;
     font-size: 12px;
-    background-color: lightsteelblue;
-   
+    background-color: #eee6c2;
+    background-image: url("/icons/search.png") !important;
 }
 
-.leaflet-control-layers-base {
-    background-image: url('icons/health.svg');
+.leaflet-control-layers {
+    background-color: #eee6c2;
 }
 
+/* .pointer-events {
+    pointer-events: visibleStroke !important;
+} */
+
+.leaflet-container {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: bold !important;
+}
 .card {
     background-color:  lightgoldenrodyellow  !important;
     border: 0;
@@ -46,33 +73,3 @@ body {
     
 }
 
-/* tests
-.page {
-    height:100vh;
-    box-sizing: border-box;
-    position: absolute;
-}
-
-#page-1 {
-    background-color: aliceblue;
-}
-
-#page-2 {
-    background-color: lightslategrey;
-}
-
-#page-3 {
-    background-color: maroon;
-}
-
-#all-pages {
-    position: relative;
-}
-
-.hidden {
-    transform: translateX(-100%)
-}
-
-.show {
-    transform: translateX(0);
-} */
