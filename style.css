@@ -14,17 +14,17 @@
 
 #map-container {
     position: relative;
+    height: 100vh;
 }
 
 #search-tab {
     position:absolute;
-    bottom: 30px;
+    bottom: 50px;
     left: 0px;
     z-index: 314159;
     background-color:rgba(255,255,255,0.5);
     min-width:300px;
-    min-height:50px;
-    
+    min-height:100px;  
 }
 
 #search-btn {
@@ -37,7 +37,7 @@
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip{
     background-color: lightgoldenrodyellow;
-    margin: 0
+    margin: 0;
     
 }
 

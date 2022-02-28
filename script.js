@@ -32,7 +32,7 @@ let baseLayer = L.layerGroup();
 
 
 window.addEventListener("DOMContentLoaded", async function () {
-    
+    // getCurrentLoc()
     baseLayer.clearLayers();
     let location = await locationData();
 
@@ -108,7 +108,7 @@ document.querySelector('#click').addEventListener('click', async function () {
             radius: 500
         });
 
-        
+
         let resultDiv = document.createElement('div');
         resultDiv.innerHTML = `<ul><li>${eachVenue.name}</li></ul>`;
         resultDiv.className = 'search-result';
@@ -124,7 +124,7 @@ document.querySelector('#click').addEventListener('click', async function () {
 })
 
 let baseRadio = {
-    "View All" : baseLayer
+    "View All": baseLayer
 }
 
 let layerCheckbox = {
@@ -133,15 +133,4 @@ let layerCheckbox = {
 }
 
 L.control.layers(baseRadio, layerCheckbox).addTo(map);
-
-
-// navigator.geolocation.getCurrentPosition(position => {
-//     const { coords: { latitude, longitude } } = position;
-//     var marker = new L.marker([latitude, longitude], {
-//       draggable: true,
-//       autoPan: true
-//     }).addTo(map);
-// })
-
-
-
+L.control.locate().addTo(map);
