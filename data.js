@@ -5,7 +5,7 @@ async function locationData() {
     let response = await axios.get(BASE_API_URL, {
         params: {
             "query": "polyclinic",
-            "v": "20220219",
+            "v": "20220303",
             "categories": "15000",
             "near": "singapore",
             "limit": "50",

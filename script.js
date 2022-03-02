@@ -41,9 +41,9 @@ let polyInfo = [];
 window.addEventListener("DOMContentLoaded", async function () {
     baseLayer.clearLayers();
     let location = await locationData();
-
+    console.log(location)
     for (let eachPoly of location) {
-        let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude];
+        let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude]
         polyMarker = L.marker(polyCoordinates, { icon: polyIcon });
         polyMarker.bindPopup(`
         <div class="card bg-light border-0 m-0 p-0" style="width: 10rem">
@@ -86,35 +86,24 @@ window.addEventListener("DOMContentLoaded", async function () {
         }
     }
     console.log(carparkData)
-    // converting  x/y coords from SVG21 to lat/long, 
-    // creating new object to store name, add and lat/long
-    // for (let eachLot in parkingLots) {
-    //     let x = parkingLots[eachLot].x_coord;
-    //     let y = parkingLots[eachLot].y_coord;
-    //     let coordinates = proj4("EPSG:3414").inverse([Number(x), Number(y)])
+    
+    for (let xy in carparkData) {
+        let lotCoords = [carparkData[xy].lng, carparkData[xy].lat] // [0].lat
+        let marker = L.marker(lotCoords, { icon: parkingIcon });
+        marker.bindPopup(`
+        Location: 
+        ${carparkData[xy].address} 
+        <br> 
+        Lots Available:
+        ${carparkData[xy].lots_available}
+        <br>
+        Total Lots:
+        ${carparkData[xy].total_lots}
+        `)
+        marker.addTo(parkingGroup)
 
-    //     let a = parkingLots[eachLot].car_park_no;
-    //     let b = parkingLots[eachLot].address;
-
-    //     let data = {
-
-    //         "carparkName": a,
-    //         "carparkAdd": b,
-    //         "coordinates": coordinates
-    //     }
-    //     carparkInfo.push(data)
-    // }
-
-    // for (let xy of carparkInfo) {
-    //     let lotCoords = [xy.coordinates[1], xy.coordinates[0]]
-    //     let marker = L.marker(lotCoords, { icon: parkingIcon });
-    //     marker.bindPopup(`
-    //     ${xy.carparkName} <br> ${xy.carparkAdd}
-    //     `)
-    //     marker.addTo(parkingGroup)
-
-    // }
-    // parkingGroup.addTo(baseLayer);
+    }
+    parkingGroup.addTo(baseLayer);
 })
 
 document.querySelector('#myButton').addEventListener('click', function () {
