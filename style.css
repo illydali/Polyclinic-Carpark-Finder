@@ -1,49 +1,104 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Lora&family=Roboto:wght@100&family=Source+Sans+Pro:wght@200&display=swap');
 
 
-/* body {
-    background-color: linen;
-    margin: 0 !important;
+body {
+    margin: 0;
     padding: 0 !important;
     border: 0 !important;
-} */
+}
 
+
+/* map items */
 #main-map {
     height: 100vh;
 }
 
 #map-container {
     position: relative;
-    height: 100vh;
+    height: 100%;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
+/* SPA pages */
+#page-two { 
+    box-sizing: border-box;
+    background-color: lightgray;
+    height: 100vh;
+    width: 100%;
+ 
+}
+
+#page-three {
+    height:100vh;
+    width: 100vw;
+    background-color: purple;
+    
+}
+
+#form-page {
+    height: 100vh;
+    position: absolute;
+    box-sizing: border-box;
+    background-color: lightsteelblue;
+    width:100vw;
+}
+
+.hidden {
+    /* move hidden page to the
+    left by 100% of its width */
+    transform: translateX(90%);
+    transition: transform 1s;
+    
+    display: none;
+    
+}
+
+.showing {
+    transform: translateX(0);
+    transition: transform 1s;
+    
+    display: block;
+}
+.navbar {
+    background-color: lightgoldenrodyellow !important;
+}
 #search-tab {
     position:absolute;
-    bottom: 50px;
-    left: 0px;
+    bottom: 100px;
+    left: 50px;
     z-index: 314159;
-    background-color:rgba(255,255,255,0.5);
-    min-width:300px;
-    min-height:100px;  
+    max-height: 500px;
+  
 }
-
+ 
 #search-btn {
     margin-left: 10px;
 }
-
-.search-result {
-    padding: 10px;
+/* #search-results {
+    padding: 2px;
+    overflow-y: scroll !important; 
+    max-height: 300px;
+} */
+/* .search-result {
+    padding: 2px;
+    overflow-y: scroll !important; 
+    overflow-x: none;
+    max-height: 200px;
+} */
+.accordion-body {
+    padding: 0px;
+    overflow-y: scroll !important; 
+    max-height: 500px;
 }
-
 .leaflet-popup-content-wrapper, .leaflet-popup-tip{
     background-color: lightgoldenrodyellow;
     margin: 0;
     
 }
 
-.leaflet-popup-content{
-    /* padding:5px 3px 3px 3px; */
-    
+.leaflet-popup-content{   
     color:#002640;
 }
 

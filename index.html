@@ -31,7 +31,7 @@
   <div id="map-container" class="container-fluid">
     <nav class="navbar navbar-expand-sm bg-light navbar-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Finder Map
+        <a class="navbar-brand" id="home" href="#">Finder Map
           <img src="icons/heart-logo.png" alt="Heart Logo" style="width:25px" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
@@ -40,19 +40,20 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" id="about" href="#">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Work In Progress</a>
+              <a class="nav-link" id="work-in-prog" href="#">Work In Progress</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contact Us</a>
+              <a class="nav-link" id="contact-us" href="#">Contact Us</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div id="main-map">
+    <!-- map div -->
+    <div id="main-map" id="page-one" class="page">
       <div id="search-tab">
         <div class="accordion" id="mySearch">
           <div class="accordion-item">
@@ -67,31 +68,80 @@
               <div class="accordion-body">
                 <input id="search-input" type="text" placeholder="Polyclinic Name" />
                 <button class="btn btn-sm btn-warning rounded-pill" id="click" a href="#main-map">Search Now</button>
-              </div>
-              <div id="search-results">
+                <div id="search-results">
+
+                </div>
 
               </div>
+
             </div>
           </div>
         </div>
 
 
       </div>
-      <nav class="navbar navbar-light navbar-expand-sm bg-light fixed-bottom">
-        Copyright @ ... Credits @ ...
-      </nav>
+
+    </div>  
+    <!-- page two -->
+    <div id="page-two" class=" page">
+      
+        <h1>Hello</h1>
+      
     </div>
+    <!-- page three -->
+    <div id="page-three" class=" page ">
+      <div class="container">
+        <h1>Future</h1>
+      </div>
+    </div>
+    <!-- form page -->
+    <div id="form-page" class="hidden page ">
+      
+      <div class="px-3">
+        <label>How did you hear about us?</label>
+        <div class="form-check">
+            <input class="form-check-input hear-about" 
+                   type="checkbox"
+                   value="tv"/>
+            <label class="form-check-label">
+                TV
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input hear-about"
+                   type="checkbox"
+                   value="newsletter"/>
+            <label class="form-check-label">Newsletter</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input hear-about"
+                   type="checkbox"
+                   value="word-of-mouth"/>
+            <label class="form-check-label">Word of Mouth</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input hear-about"
+                   type="checkbox"
+                   value="salesperson"/>
+            <label class="form-check-label">Salesperson</label>
+        </div>
+    </div>
+    <button class="btn btn-warning mt-3 px-3" id="btn">Submit</button>
+    </div>
+
+    <nav class="navbar navbar-light navbar-expand-sm bg-light fixed-bottom">
+      Copyright @ ... Credits @ ...
+    </nav>
+
   </div>
-
-
-
   <!-- Leaflet -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
-  
+  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
+    charset="utf-8"></script>
+
   <!-- Axios -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js"
     integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
@@ -107,7 +157,9 @@
 
   <!-- Own JS -->
   <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script src="script.js">
+    
+  </script>
 </body>
 
 </html>
