@@ -232,9 +232,9 @@ document.querySelector("#home").addEventListener("click", function() {
         p.classList.add("hidden")
     }
 
-    let about = document.querySelector("#main-map");
-    about.classList.remove("hidden");
-    about.classList.add("showing");
+    let home = document.querySelector("#main-map");
+    home.classList.remove("hidden");
+    home.classList.add("showing");
 })
 
 document.querySelector("#work-in-prog").addEventListener("click", function() {
@@ -244,9 +244,9 @@ document.querySelector("#work-in-prog").addEventListener("click", function() {
         p.classList.add("hidden")
     }
 
-    let about = document.querySelector("#page-three");
-    about.classList.remove("hidden");
-    about.classList.add("showing");
+    let workInProgress = document.querySelector("#page-three");
+    workInProgress.classList.remove("hidden");
+    workInProgress.classList.add("showing");
 })
 
 document.querySelector("#contact-us").addEventListener("click", function() {
@@ -257,7 +257,7 @@ document.querySelector("#contact-us").addEventListener("click", function() {
         p.classList.add("hidden")
     }
 
-    let about = document.querySelector("#form-page");
-    about.classList.remove("hidden");
-    about.classList.add("showing");
+    let form = document.querySelector("#form-page");
+    form.classList.remove("hidden");
+    form.classList.add("showing");
 })

@@ -1,65 +1,50 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Lora&family=Roboto:wght@100&family=Source+Sans+Pro:wght@200&display=swap');
 
 
-body {
-    margin: 0;
-    padding: 0 !important;
-    border: 0 !important;
+/* parent container */ 
+
+#all-pages {
+    position: relative;
 }
-
-
-/* map items */
+.page {
+    height: 100vh;
+    box-sizing: border-box; 
+    /* padding and margin will be part of the element's width/height without adding to it */
+    position: absolute;
+    width: 100%;
+}
 #main-map {
     height: 100vh;
 }
 
-#map-container {
-    position: relative;
-    height: 100%;
-    border: 0;
-    padding: 0;
-    margin: 0;
-}
-
 /* SPA pages */
 #page-two { 
-    box-sizing: border-box;
-    background-color: lightgray;
-    height: 100vh;
-    width: 100%;
- 
+ background-color: #002640;
 }
 
 #page-three {
-    height:100vh;
-    width: 100vw;
-    background-color: purple;
-    
+    background-color: salmon;
 }
 
 #form-page {
-    height: 100vh;
-    position: absolute;
-    box-sizing: border-box;
-    background-color: lightsteelblue;
-    width:100vw;
+    background-color: red;
 }
 
 .hidden {
     /* move hidden page to the
     left by 100% of its width */
-    transform: translateX(90%);
+    transform: translateX(100%);
     transition: transform 1s;
-    
-    display: none;
-    
+    /* z-index: 000000; */
+ 
 }
 
 .showing {
     transform: translateX(0);
     transition: transform 1s;
-    
-    display: block;
+    /* z-index: 400000; */
+   
+
 }
 .navbar {
     background-color: lightgoldenrodyellow !important;
