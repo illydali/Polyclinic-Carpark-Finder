@@ -34,10 +34,8 @@ let baseLayer = L.layerGroup();
 let searchResult = L.layerGroup()
 searchResult.addTo(map);
 
-let freeLots = getCarparks();
-let carparkData = []
-let carparkInfo = [];
 
+let carparkData = []
 let polyInfo = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
@@ -61,50 +59,68 @@ window.addEventListener("DOMContentLoaded", async function () {
     } polyLayer.addTo(baseLayer);
 
     let parkingLots = await getLots();
+    let availableLots = await getCarparks();
+    
+    for (let free in availableLots) {
+        let tempArr = [];
+        tempArr[free] = { "carpark_number": availableLots[free].carpark_number }
+        for (let eachLot in parkingLots) {
+            let x = parkingLots[eachLot].x_coord;
+            let y = parkingLots[eachLot].y_coord;
+            let coordinates = proj4("EPSG:3414").inverse([Number(x), Number(y)])
 
+            if (parkingLots[eachLot].car_park_no == tempArr[free].carpark_number) {
+                carparkData[free] = {
+                    "carpark_number": availableLots[free].carpark_number,
+                    "address" : parkingLots[eachLot].address,
+                    "lat": coordinates[0],
+                    "lng": coordinates[1],
+                    "lot_type": availableLots[free].carpark_info[0].lot_type,
+                    "lots_available": availableLots[free].carpark_info[0].lots_available,
+                    "total_lots": availableLots[free].carpark_info[0].total_lots,
+                    "car_park_type": parkingLots[eachLot].car_park_type,
+                    "parking_system":parkingLots[eachLot].type_of_parking_system,
+                    "free_parking": parkingLots[eachLot].free_parking       
+                }
+            }
+        }
+    }
+    console.log(carparkData)
     // converting  x/y coords from SVG21 to lat/long, 
     // creating new object to store name, add and lat/long
-    for (let eachLot in parkingLots) {
-        let x = parkingLots[eachLot].x_coord;
-        let y = parkingLots[eachLot].y_coord;
-        let coordinates = proj4("EPSG:3414").inverse([Number(x), Number(y)])
+    // for (let eachLot in parkingLots) {
+    //     let x = parkingLots[eachLot].x_coord;
+    //     let y = parkingLots[eachLot].y_coord;
+    //     let coordinates = proj4("EPSG:3414").inverse([Number(x), Number(y)])
 
-        let a = parkingLots[eachLot].car_park_no;
-        let b = parkingLots[eachLot].address;
+    //     let a = parkingLots[eachLot].car_park_no;
+    //     let b = parkingLots[eachLot].address;
 
-        let data = {
+    //     let data = {
 
-            "carparkName": a,
-            "carparkAdd": b,
-            "coordinates": coordinates
-        }
-        carparkInfo.push(data)
-    }
+    //         "carparkName": a,
+    //         "carparkAdd": b,
+    //         "coordinates": coordinates
+    //     }
+    //     carparkInfo.push(data)
+    // }
 
-    for (let xy of carparkInfo) {
-        let lotCoords = [xy.coordinates[1], xy.coordinates[0]]
-        let marker = L.marker(lotCoords, { icon: parkingIcon });
-        marker.bindPopup(`
-        ${xy.carparkName} <br> ${xy.carparkAdd}
-        `)
-        marker.addTo(parkingGroup)
+    // for (let xy of carparkInfo) {
+    //     let lotCoords = [xy.coordinates[1], xy.coordinates[0]]
+    //     let marker = L.marker(lotCoords, { icon: parkingIcon });
+    //     marker.bindPopup(`
+    //     ${xy.carparkName} <br> ${xy.carparkAdd}
+    //     `)
+    //     marker.addTo(parkingGroup)
 
-    }
-    parkingGroup.addTo(baseLayer);
+    // }
+    // parkingGroup.addTo(baseLayer);
 })
 
-// test 
-console.log(carparkInfo)
-console.log(polyInfo)
-
-// function getBounds(coords) {
-
-// }
-resultArr = []
 document.querySelector('#myButton').addEventListener('click', function () {
     searchResult.clearLayers();
     baseLayer.clearLayers()
-   
+
     let searchResultElement = document.querySelector("#mainList");
 
     for (let each of polyInfo) {
@@ -126,7 +142,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
         let listItems = document.createElement('ul');
 
-        listItems.innerHTML =  `<li>${each.name}</li>`
+        listItems.innerHTML = `<li>${each.name}</li>`
         listItems.className = "list-result"
         listItems.addEventListener('click', function () {
             map.flyTo(coordinate, 15);
@@ -141,8 +157,6 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
 
 })
-
-// console.log(resultArr)
 
 let baseRadio = {
     "View All": baseLayer
@@ -164,68 +178,43 @@ let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCent
 console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng)
 console.log(user)
 
-async function mergeCarparkData() {
-    let mn = await getCarparks()
-    let newcp = []
-    console.log(mn)
-    for (let i in mn) {
-        let tempArr = [];
-        tempArr[i] = { "carpark_number": mn[i].carpark_number }
-        for (let j in carparkInfo) {
-            if (carparkInfo[j].carparkName == tempArr[i].carpark_number) {
-                newcp[i] = {
-                    
-                    "carpark_number": mn[i].carpark_number,
-                    "lot_type": mn[i].carpark_info[0].lot_type,
-                    "lots_available": mn[i].carpark_info[0].lots_available,
-                    "total_lots": mn[i].carpark_info[0].total_lots,
-                    "lat": carparkInfo[j].coordinates[0],
-                    "lng": carparkInfo[j].coordinates[1],
-                }
-            }
-        }
-    } 
-    console.log(newcp)
-}
-mergeCarparkData()
-console.log()
-
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2 - lat1); // deg2rad below
     var dLon = deg2rad(lon2 - lon1);
     var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c; // Distance in km
     return d;
-  }
-  function deg2rad(deg) {
+}
+function deg2rad(deg) {
     return deg * (Math.PI / 180)
-  }
+}
 
 function carparkInRadius(user) {
+
     let newLayer = L.markerClusterGroup()
     for (let item in polyInfo) {
-        var latPos = user[0];
-        var lngPos = user[1];
-        var latCP = polyInfo.geocodes.main.latitude;
-        var lngCP = polyInfo.geocodes.main.longitude;
-        var distance = getDistanceFromLatLonInKm(latPos, lngPos, latCP, lngCP).toFixed(2) * 1000;
-        if (distance <= radius) {
+        let latPos = user[0];
+        let lngPos = user[1];
+        let latCP = polyInfo.geocodes.main.latitude;
+        let lngCP = polyInfo.geocodes.main.longitude;
+        let distance = getDistanceFromLatLonInKm(latPos, lngPos, latCP, lngCP).toFixed(2) * 1000;
+        if (distance <= radius && test[item].lots_available > 0) {
             var cp = {
                 lat: latCP,
                 lng: lngCP
             }
             let marker = L.marker(cp)
-        }marker.addTo(newLayer)
-    }newLayer.addTo(map)
+            marker.addTo(newLayer)
+        } newLayer.addTo(map)
+    }
 }
-console.log(mergeCarparkData())
 
-document.querySelector("#about").addEventListener("click", function() {
+document.querySelector("#about").addEventListener("click", function () {
     let pages = document.querySelectorAll(".page")
     for (let p of pages) {
         p.classList.remove("showing");
@@ -237,7 +226,7 @@ document.querySelector("#about").addEventListener("click", function() {
     about.classList.add("showing");
 })
 
-document.querySelector("#home").addEventListener("click", function() {
+document.querySelector("#home").addEventListener("click", function () {
     let pages = document.querySelectorAll(".page")
     for (let p of pages) {
         p.classList.remove("showing");
@@ -249,7 +238,7 @@ document.querySelector("#home").addEventListener("click", function() {
     home.classList.add("showing");
 })
 
-document.querySelector("#work-in-prog").addEventListener("click", function() {
+document.querySelector("#work-in-prog").addEventListener("click", function () {
     let pages = document.querySelectorAll(".page")
     for (let p of pages) {
         p.classList.remove("showing");
@@ -261,8 +250,8 @@ document.querySelector("#work-in-prog").addEventListener("click", function() {
     workInProgress.classList.add("showing");
 })
 
-document.querySelector("#contact-us").addEventListener("click", function() {
-   
+document.querySelector("#contact-us").addEventListener("click", function () {
+
     let pages = document.querySelectorAll(".page")
     for (let p of pages) {
         p.classList.remove("showing");

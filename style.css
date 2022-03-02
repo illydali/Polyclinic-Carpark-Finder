@@ -15,18 +15,32 @@
 #main-map {
     height: 100vh;
 }
+.navbar {
+    background-color: #2c3531 !important;
+}
+
+.nav-link { 
+    color: #a4a71e !important;
+}
+.navbar-brand {
+    color: #d6ce15 !important;
+}
+
 
 /* SPA pages */
 #page-two { 
- background-color: #002640;
+    background-image: url("icons/crossing.jpg");
+    background-position: contain;
 }
 
 #page-three {
-    background-color: salmon;
+    background-image: url("icons/postbox.jpg");
+    background-position: center;
 }
 
 #form-page {
-    background-color: lightgrey;
+    background-image: url("icons/circle.jpg");
+    background-position: center;
 }
 
 .hidden {
@@ -38,9 +52,7 @@
     transform: translateX(0);
     transition: transform 1s;
 }
-.navbar {
-    background-color: lightgoldenrodyellow !important;
-}
+
 #search-tab {
     position:absolute;
     bottom: 100px;
@@ -53,22 +65,8 @@
 #search-btn {
     margin-left: 10px;
 }
-/* #search-results {
-    padding: 2px;
-    overflow-y: scroll !important; 
-    max-height: 300px;
-} */
-/* .search-result {
-    padding: 2px;
-    overflow-y: scroll !important; 
-    overflow-x: none;
-    max-height: 200px;
-} */
-.accordion-body {
-    padding: 0px;
-    overflow-y: scroll !important; 
-    max-height: 500px;
-}
+
+/* leaflet edits */
 .leaflet-popup-content-wrapper, .leaflet-popup-tip{
     background-color: lightgoldenrodyellow;
     margin: 0;
@@ -98,6 +96,8 @@
     font-family: 'Cormorant Garamond', serif;
     font-weight: bold !important;
 }
+
+/* bootstrap edits */
 .card {
     background-color:  lightgoldenrodyellow  !important;
     border: 0;
