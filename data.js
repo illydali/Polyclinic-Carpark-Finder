@@ -26,3 +26,10 @@ async function getLots() {
     let response = await axios.get("result.json");
     return response.data;
 }
+
+async function getCarparks() {
+    let response = await axios.get("Https://api.data.gov.sg/v1/transport/carpark-availability")
+    return response.data;
+}
+
+console.log(getCarparks())

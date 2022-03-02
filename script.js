@@ -98,16 +98,11 @@ console.log(polyInfo)
 
 // }
 resultArr = []
-document.querySelector('#click').addEventListener('click', async function () {
+document.querySelector('#myButton').addEventListener('click', function () {
     searchResult.clearLayers();
     baseLayer.clearLayers()
-
-    let searchItem = document.querySelector("#search-input").value.toLowerCase().trim()
-    let response = await locationData(searchItem);
-    // selecting div to display search elements
-    let searchResultElement = document.querySelector("#search-results");
-
-    console.log(searchItem)
+   
+    let searchResultElement = document.querySelector("#mainList");
 
     for (let each of polyInfo) {
         let coordinate = [each.geocodes.main.latitude, each.geocodes.main.longitude];
@@ -126,29 +121,17 @@ document.querySelector('#click').addEventListener('click', async function () {
 
         resultArr.push(each.name)
 
-        let fakeDiv = document.createElement('div');
-        // let find = resultArr.includes(searchItem.toLowerCase().trim())
-        // console.log(find);
+        let listItems = document.createElement('ul');
 
-        fakeDiv.innerHTML =  `${each.name}`
-        // fakeDiv.className = 'search-result';
-        // fakeDiv.innerHTML = `<ul><li>${searchItem}</li></ul>`
-        // fakeDiv.className = 'search-result';
-        fakeDiv.addEventListener('click', function () {
+        listItems.innerHTML =  `<li>${each.name}</li>`
+        listItems.className = "list-result"
+        listItems.addEventListener('click', function () {
             map.flyTo(coordinate, 15);
             polyMarker.openPopup();
         })
 
-
-
-        // resultDiv.innerHTML = `<ul><li>${searchItem}</li></ul>`
-        // resultDiv.className = 'search-result';
-        // resultDiv.addEventListener('click', function () {
-        //     map.flyTo(coordinate, 15);
-        //     polyMarker.openPopup();
-        // })
         circle.addTo(searchResult)
-        searchResultElement.appendChild(fakeDiv);
+        searchResultElement.appendChild(listItems);
         parkingGroup.addTo(map)
 
     }
