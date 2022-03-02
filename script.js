@@ -34,7 +34,10 @@ let baseLayer = L.layerGroup();
 let searchResult = L.layerGroup()
 searchResult.addTo(map);
 
+let freeLots = getCarparks();
+let carparkData = []
 let carparkInfo = [];
+
 let polyInfo = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
@@ -119,7 +122,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
         // let carparkInRadius =  user onclick select poly find radius and display markers of carparks around there.
 
-        resultArr.push(each.name)
+        // resultArr.push(each.name)
 
         let listItems = document.createElement('ul');
 
@@ -139,7 +142,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
 })
 
-console.log(resultArr)
+// console.log(resultArr)
 
 let baseRadio = {
     "View All": baseLayer
@@ -160,6 +163,32 @@ let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCent
 
 console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng)
 console.log(user)
+
+async function mergeCarparkData() {
+    let mn = await getCarparks()
+    let newcp = []
+    console.log(mn)
+    for (let i in mn) {
+        let tempArr = [];
+        tempArr[i] = { "carpark_number": mn[i].carpark_number }
+        for (let j in carparkInfo) {
+            if (carparkInfo[j].carparkName == tempArr[i].carpark_number) {
+                newcp[i] = {
+                    
+                    "carpark_number": mn[i].carpark_number,
+                    "lot_type": mn[i].carpark_info[0].lot_type,
+                    "lots_available": mn[i].carpark_info[0].lots_available,
+                    "total_lots": mn[i].carpark_info[0].total_lots,
+                    "lat": carparkInfo[j].coordinates[0],
+                    "lng": carparkInfo[j].coordinates[1],
+                }
+            }
+        }
+    } 
+    console.log(newcp)
+}
+mergeCarparkData()
+console.log()
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
@@ -194,7 +223,7 @@ function carparkInRadius(user) {
         }marker.addTo(newLayer)
     }newLayer.addTo(map)
 }
-console.log(carparkInRadius())
+console.log(mergeCarparkData())
 
 document.querySelector("#about").addEventListener("click", function() {
     let pages = document.querySelectorAll(".page")

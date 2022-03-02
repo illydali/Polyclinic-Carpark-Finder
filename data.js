@@ -29,7 +29,48 @@ async function getLots() {
 
 async function getCarparks() {
     let response = await axios.get("Https://api.data.gov.sg/v1/transport/carpark-availability")
-    return response.data;
+    return response.data.items[0].carpark_data;
 }
+// let freeLots = getCarparks();
+// let carparkData = []
 
-console.log(getCarparks())
+// function mergeCarparkData(freeLots, carparkInfo) {
+//     for (let i in freeLots) {
+//         let tempArr = [];
+//         tempArr[i] = { "carpark_number": freeLots[i].carpark_number }
+//         for (let j in carparkInfo) {
+//             if (carparkInfo[j].carparkName == tempArr[i].carpark_number) {
+//                 newData = {
+//                     "carpark_number": freeLots[i].carpark_number,
+//                     "lot_type": freeLots[i].carpark_info[0]["lot_type"],
+//                     "lots_available": freeLots[i].carpark_info[0]["lots_available"],
+//                     "total_lots": freeLots[i].carpark_info[0]["total_lots"],
+//                     "x_coord": carparkInfo[j].coordinates[0],
+//                     "y_coord": carparkInfo[j].coordinates[1],
+//                 }
+//             }
+//         }
+//     } carparkData.push(newData)
+// }
+
+// console.log(carparkData)
+// // getNewInfo(function (carparkInfo) {
+// //     for (let i in freeLots) {
+// //         let tempArr = [];
+// //         tempArr[i] = { "carpark_number": data[i].carpark_number };
+// //         for (let j in carparkInRadius) {
+// //             if (carparkInfo[j].carparkName === tempArr[i].carpark_number) {
+// //                 carparkData[i] = {
+// //                     "carpark_number": freeLots[i].carpark_number,
+// //                     "lot_type": freeLots[i].carpark_info[0]["lot_type"],
+// //                     "lots_available": freeLots[i].carpark_info[0]["lots_available"],
+// //                     "total_lots": freeLots[i].carpark_info[0]["total_lots"],
+// //                     "x_coord": carparkInfo[j].coordinates[0],
+// //                     "y_coord": carparkInfo[j].coordinates[1],
+// //                 }
+// //             } carparkData.push(i)
+// //         }
+// //     }
+// // })
+
+// // console.log(carparkData)
