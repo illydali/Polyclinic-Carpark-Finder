@@ -68,11 +68,11 @@
 }
 
 /* leaflet edits */
-.leaflet-popup-content-wrapper, .leaflet-popup-tip{
+/* .leaflet-popup-content-wrapper, .leaflet-popup-tip{
     background-color: lightgoldenrodyellow;
     margin: 0;
     
-}
+} */
 
 .leaflet-popup-content{   
     color:#002640;
@@ -93,18 +93,18 @@
     pointer-events: visibleStroke !important;
 } */
 
-.leaflet-container {
+/* .leaflet-container {
     font-family: 'Cormorant Garamond', serif;
     font-weight: bold !important;
-}
+} */
 
 /* bootstrap edits */
-.card {
+/* .card {
     background-color:  lightgoldenrodyellow  !important;
     border: 0;
     font-family: 'Roboto', sans-serif !important;
     
-}
+} */
 
 #mainList {
     overflow: scroll;

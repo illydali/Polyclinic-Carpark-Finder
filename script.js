@@ -1,7 +1,7 @@
 let singapore = [1.36, 103.85];
 let map = L.map("main-map").setView(singapore, 14);
 
-L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+let mainView = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     id: "mapbox/streets-v11",
@@ -12,10 +12,16 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
 
+let OneMapSG = L.tileLayer('https://maps-{s}.onemap.sg/v3/Original/{z}/{x}/{y}.png', {
+	minZoom: 11,
+	maxZoom: 18,
+	bounds: [[1.56073, 104.11475], [1.16, 103.502]],
+	attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
+})
 
 // setting up icons
 let polyIcon = L.icon({
-    iconUrl: '/icons/clinic.svg',
+    iconUrl: '/icons/health-care.svg',
     iconSize: [40, 40],
     popupAnchor: [0, 0]
 });
@@ -27,10 +33,11 @@ let parkingIcon = L.icon({
 })
 
 // setting up layers
+let tileLayers = L.layerGroup()
 let polyLayer = L.markerClusterGroup();
 let parkingGroup = L.markerClusterGroup();
 let polyMarker = L.marker;
-let baseLayer = L.layerGroup();
+let baseLayer = L.layerGroup()
 let searchResult = L.layerGroup()
 searchResult.addTo(map);
 
@@ -48,15 +55,14 @@ window.addEventListener("DOMContentLoaded", async function () {
         <div class="card bg-light border-0 m-0 p-0" style="width: 10rem">
         <div class="card-body" >
             <p class="card-title h6">${eachPoly.name}</p>
-            <p class="card-subtitle h6 mb-2 text-muted">${eachPoly.location.address} ${eachPoly.location.postcode}</p>
-            <a href="#" class="card-link">Find nearest carpark</a>
+            <p class="card-subtitle h6 mb-2 text-muted">${eachPoly.location.formatted_address}</p>
         </div>
         </div>`)
         polyMarker.addTo(polyLayer);
         polyInfo.push(eachPoly)
 
     } polyLayer.addTo(baseLayer);
-
+    console.log(polyInfo)
     let parkingLots = await getLots();
     let availableLots = await getCarparks();
 
@@ -90,18 +96,23 @@ window.addEventListener("DOMContentLoaded", async function () {
         let lotCoords = [carparkData[xy].lng, carparkData[xy].lat] // [0].lat
         let marker = L.marker(lotCoords, { icon: parkingIcon });
         marker.bindPopup(`
+        <img src="icons/car.png"/>
+        <h6>${carparkData[xy].carpark_number}: ${carparkData[xy].address}</h6>
+        
+        <h6>
         <i class="fa-solid fa-car-side"></i>
-        Location: 
-        ${carparkData[xy].address} 
-        <br> 
-        Lots Available:
-        ${carparkData[xy].lots_available}
-        <br>
-        Total Lots:
-        ${carparkData[xy].total_lots}
-        <br>
-        Last Updated:
-        ${carparkData[xy].last_updated}
+        Available Lots: ${carparkData[xy].lots_available}
+        </h6>
+        
+        <h6>
+        <i class="fa-solid fa-barcode"></i>
+        Carpark Type: ${carparkData[xy].parking_system}
+        </h6>
+       
+        <h6>
+        <i class="fa-solid fa-arrows-rotate"></i>
+        Last Updated: ${carparkData[xy].last_updated}
+        </h6>
         `)
         marker.addTo(parkingGroup)
 
@@ -114,24 +125,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
     baseLayer.clearLayers()
 
     let searchResultElement = document.querySelector("#mainList");
-    // L.Circle.include({
-    //     contains: function (latlng) {
-    //         return this.getLatlng().distanceTo(latlng) < this.getRadius();
-    //     }
-    // })
-
-    // let test_coords = [1.302, 103.90]
-    // let circle = L.circle(test_coords, 500).addTo(map)
-    // circle.contains(marker.getLatLng());
-    // circle.contains(test_coords);
-    // map.fitBounds(circle.getBounds());
-
-    // map.on('click', function (e) {
-    //     var marker = L.marker(e.latlng).addTo(map);
-    //     var result = (circle.contains(marker.getLatLng())) ? 'inside': 'outside';
-    //     marker.bindPopup('Marker ' + result + ' of the circle');
-    //     marker.openPopup();
-    //   });
+    
     for (let each of polyInfo) {
         let coordinate = [each.geocodes.main.latitude, each.geocodes.main.longitude];
 
@@ -145,7 +139,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
         // })
         // let circle = L.circle(coordinates, 500)
         // map.fitBounds(circle.getBounds());
-        // polyMarker.on('mouseover', function (showCircle) {
+        // polyMarker.on('click', function (showCircle) {
         //     let result = (circle.contains(polyMarker.getLatLng())) 
         //     if (result < circle.rad)
         //     circle.addto(map)
@@ -180,23 +174,20 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
 })
 
-// L.Circle.include({
-//     contains: function (latlng) {
-//         return this.getLatlng().distanceTo(latlng) < this.getRadius();
-//     }
-// })
-
-
-let baseRadio = {
-    "View All": baseLayer
+OneMapSG.addTo(tileLayers),
+mainView.addTo(tileLayers)
+let radioButton = {
+    "Main View" : mainView,
+    "MRT Lines" : OneMapSG,
 }
 
 let layerCheckbox = {
+    "View All" : baseLayer,
     "Polyclinics": polyLayer,
     "Parking Lots": parkingGroup,
 }
 
-L.control.layers(baseRadio, layerCheckbox).addTo(map);
+L.control.layers(radioButton,layerCheckbox).addTo(map);
 let currentLocation = L.control.locate({
     drawMarker: true,
     drawCircle: false,
@@ -206,22 +197,6 @@ let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCent
 
 console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng)
 console.log(user)
-
-// function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-//     var R = 6371; // Radius of the earth in km
-//     var dLat = deg2rad(lat2 - lat1); // deg2rad below
-//     var dLon = deg2rad(lon2 - lon1);
-//     var a =
-//         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-//         Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-//         Math.sin(dLon / 2) * Math.sin(dLon / 2);
-//     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//     var d = R * c; // Distance in km
-//     return d;
-// }
-// function deg2rad(deg) {
-//     return deg * (Math.PI / 180)
-// }
 
 // function carparkInRadius(user) {
 

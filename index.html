@@ -29,7 +29,7 @@
 
 <body>
   <div id="all-pages" class="container-fluid px-0">
-    <nav class="navbar navbar-expand-sm">
+    <!-- <nav class="navbar navbar-expand-sm">
       <div class="container-fluid">
         <a class="navbar-brand light-link" id="home" href="#">Finder Map
           <img src="icons/heart-logo.png" alt="Heart Logo" style="width:25px" />
@@ -51,27 +51,30 @@
           </ul>
         </div>
       </div>
-    </nav>
+    </nav> -->
     <!-- map div -->
     <div id="main-map" id="page-one" class="page">
       <div id="search-tab">
+
         <p>
-          <button class="btn btn-primary" id="myButton" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          <button class="btn btn-primary" id="myButton" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             Polyclinic List
           </button>
         </p>
 
-        
+
         <div class="collapse" id="collapseExample">
           <div class="card card-body" id="mainList">
-            
+
           </div>
         </div>
 
-      
+
 
       </div>
-    </div> 
+    </div>
+
     <!-- page two -->
     <div id="page-two" class="hidden page">
       <div class="container">
@@ -87,39 +90,31 @@
     <!-- form page -->
     <div id="page-four" class="hidden page">
       <div class="container">
-      <div class="px-3 text-white">
-        <h3 display-3>Give us a shoutout!</h3>
-        <label>How did you hear about us?</label>
-        <div class="form-check">
-            <input class="form-check-input hear-about" 
-                   type="checkbox"
-                   value="tv"/>
+        <div class="px-3 text-white">
+          <h3 display-3>Give us a shoutout!</h3>
+          <label>How did you hear about us?</label>
+          <div class="form-check">
+            <input class="form-check-input hear-about" type="checkbox" value="tv" />
             <label class="form-check-label">
-                TV
+              TV
             </label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input hear-about"
-                   type="checkbox"
-                   value="newsletter"/>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input hear-about" type="checkbox" value="newsletter" />
             <label class="form-check-label">Newsletter</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input hear-about"
-                   type="checkbox"
-                   value="word-of-mouth"/>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input hear-about" type="checkbox" value="word-of-mouth" />
             <label class="form-check-label">Word of Mouth</label>
-        </div>
-        <div class="form-check">
-            <input class="form-check-input hear-about"
-                   type="checkbox"
-                   value="salesperson"/>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input hear-about" type="checkbox" value="salesperson" />
             <label class="form-check-label">Salesperson</label>
+          </div>
         </div>
+        <button class="btn btn-warning mt-3 px-3" id="btn">Submit</button>
+      </div>
     </div>
-    <button class="btn btn-warning mt-3 px-3" id="btn">Submit</button>
-    </div>
-  </div>
     <nav class="navbar navbar-light navbar-expand-sm text-white fixed-bottom">
       Copyright @ ... Credits @ ...
     </nav>
@@ -149,7 +144,7 @@
   <!-- Own JS -->
   <script src="data.js"></script>
   <script src="script.js">
-    
+
   </script>
 </body>
 
