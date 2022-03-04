@@ -25,3 +25,4 @@ Search for a name of a polyclinic and it will return a circle of the nearest car
 ## Icons
 - Icons8.com 
 - SvgRepo.com
+- Fontawesome.com

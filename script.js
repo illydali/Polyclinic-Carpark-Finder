@@ -10,14 +10,14 @@ let mainView = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/
     accessToken: "sk.eyJ1IjoiNmlsbHkiLCJhIjoiY2t6dGoxaHJlMGNzZzJvbnduZGdic2lvbyJ9.8s5meHPYaHhf-IOxa03MxA"
 }).addTo(map);
 
-proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
-
 let OneMapSG = L.tileLayer('https://maps-{s}.onemap.sg/v3/Original/{z}/{x}/{y}.png', {
 	minZoom: 11,
 	maxZoom: 18,
 	bounds: [[1.56073, 104.11475], [1.16, 103.502]],
 	attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
 })
+
+proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
 
 // setting up icons
 let polyIcon = L.icon({
@@ -36,7 +36,7 @@ let parkingIcon = L.icon({
 let tileLayers = L.layerGroup()
 let polyLayer = L.markerClusterGroup();
 let parkingGroup = L.markerClusterGroup();
-let polyMarker = L.marker;
+// let polyMarker = L.marker;
 let baseLayer = L.layerGroup()
 let searchResult = L.layerGroup()
 searchResult.addTo(map);
@@ -62,7 +62,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         polyInfo.push(eachPoly)
 
     } polyLayer.addTo(baseLayer);
-    console.log(polyInfo)
+    
     let parkingLots = await getLots();
     let availableLots = await getCarparks();
 
@@ -190,7 +190,7 @@ let layerCheckbox = {
 L.control.layers(radioButton,layerCheckbox).addTo(map);
 let currentLocation = L.control.locate({
     drawMarker: true,
-    drawCircle: false,
+    showCompass: true,
 }).addTo(map);
 
 let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng]
@@ -218,54 +218,17 @@ console.log(user)
 //     }
 // }
 
-document.querySelector("#about").addEventListener("click", function () {
-    let pages = document.querySelectorAll(".page")
-    for (let p of pages) {
-        p.classList.remove("show");
-        p.classList.add("hidden")
-    }
-
-    let about = document.querySelector("#page-two");
-    about.classList.remove("hidden");
-    about.classList.add("show");
-})
-
-document.querySelector("#home").addEventListener("click", function () {
-    let pages = document.querySelectorAll(".page")
-    for (let p of pages) {
-        p.classList.remove("show");
-        p.classList.add("hidden")
-    }
-
-    let home = document.querySelector("#main-map");
-    home.classList.remove("hidden");
-    home.classList.add("show");
-})
-
-document.querySelector("#work-in-prog").addEventListener("click", function () {
-    let pages = document.querySelectorAll(".page")
-    for (let p of pages) {
-        p.classList.remove("show");
-        p.classList.add("hidden")
-    }
-
-    let workInProgress = document.querySelector("#page-three");
-    workInProgress.classList.remove("hidden");
-    workInProgress.classList.add("show");
-})
-
-document.querySelector("#contact-us").addEventListener("click", function () {
-
-    let pages = document.querySelectorAll(".page")
-    for (let p of pages) {
-        p.classList.remove("show");
-        p.classList.add("hidden")
-    }
-
-    let form = document.querySelector("#page-four");
-    form.classList.remove("hidden");
-    form.classList.add("show");
-})
 
 let scrollDiv = document.querySelector("#mainList") 
 L.DomEvent.disableScrollPropagation(scrollDiv);
+
+document.querySelector("#enter").addEventListener("click", function () {
+    let form = document.querySelector("#overlay");
+    form.classList.remove("show");
+    form.classList.add("hidden");
+
+    let map = document.querySelector("#main-map")
+    map.classList.remove("hidden")
+    map.classList.add("show")
+})
+

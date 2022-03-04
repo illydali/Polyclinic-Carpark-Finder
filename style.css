@@ -1,17 +1,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Lora&family=Roboto:wght@100&family=Source+Sans+Pro:wght@200&display=swap');
 
+html {
+    height: 100%;
+}
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+    background-image: url("icons/circle.jpg");
+    background-size: cover;
+    background-position: center;
+}
 
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto
+}
+
+.modal {
+    z-index: 314159;
+}
 /* parent container */ 
 
-#all-pages {
+/* #all-pages {
     position: relative;
-}
-.page {
+} */
+/* .page {
     height: 100vh;
     box-sizing: border-box; 
     position: absolute;
     width: 100vw;
-}
+} */
+/* #home {
+    background-image: url("icons/crossing.jpg");
+    width: 100%;
+    height: 100%;
+    background-color: #999;
+    background-repeat:no-repeat;
+    background-size:contain;
+    background-blend-mode: multiply;
+    transition: all .2s ease;
+
+} */
+
+/* .home {
+    width: 100%;
+    height: 100%
+} */
+
 #main-map {
     height: 100vh;
 }
@@ -24,24 +67,6 @@
 }
 .navbar-brand {
     color: #d6ce15 !important;
-}
-
-
-/* SPA pages */
-#page-two { 
-    background-image: url("icons/crossing.jpg");
-    background-position: center;
-}
-
-#page-three {
-    background-image: url("icons/postbox.jpg");
-    background-position: center;
-}
-
-#page-four {
-    background-image: url("icons/circle.jpg");
-    background-position: center;
-
 }
 
 .hidden {
@@ -99,15 +124,15 @@
 } */
 
 /* bootstrap edits */
-/* .card {
+.card {
     background-color:  lightgoldenrodyellow  !important;
     border: 0;
     font-family: 'Roboto', sans-serif !important;
     
-} */
+}
 
 #mainList {
     overflow: scroll;
     height: 200px;
-    /* overscroll-behavior: contain; */
+    overscroll-behavior: contain;
 }
