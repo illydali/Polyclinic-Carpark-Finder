@@ -10,7 +10,7 @@
     height: 100vh;
     box-sizing: border-box; 
     position: absolute;
-    width: 100%;
+    width: 100vw;
 }
 #main-map {
     height: 100vh;
@@ -30,7 +30,7 @@
 /* SPA pages */
 #page-two { 
     background-image: url("icons/crossing.jpg");
-    background-position: contain;
+    background-position: center;
 }
 
 #page-three {
@@ -38,18 +38,19 @@
     background-position: center;
 }
 
-#form-page {
+#page-four {
     background-image: url("icons/circle.jpg");
     background-position: center;
+
 }
 
 .hidden {
-    transform: translateX(100%);
+    transform: translateY(100%);
     transition: transform 1s;
 }
 
-.showing {
-    transform: translateX(0);
+.show {
+    transform: translateY(0);
     transition: transform 1s;
 }
 
@@ -106,6 +107,7 @@
 }
 
 #mainList {
-    overflow: auto;
-    height: 200px
+    overflow: scroll;
+    height: 200px;
+    /* overscroll-behavior: contain; */
 }
