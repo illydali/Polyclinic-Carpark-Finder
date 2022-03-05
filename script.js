@@ -11,10 +11,10 @@ let mainView = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/
 }).addTo(map);
 
 let OneMapSG = L.tileLayer('https://maps-{s}.onemap.sg/v3/Original/{z}/{x}/{y}.png', {
-	minZoom: 11,
-	maxZoom: 18,
-	bounds: [[1.56073, 104.11475], [1.16, 103.502]],
-	attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
+    minZoom: 11,
+    maxZoom: 18,
+    bounds: [[1.56073, 104.11475], [1.16, 103.502]],
+    attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
 })
 
 proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
@@ -46,7 +46,7 @@ let polyInfo = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
     baseLayer.clearLayers();
-    
+
     let location = await locationData();
     for (let eachPoly of location) {
         let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude]
@@ -61,12 +61,12 @@ window.addEventListener("DOMContentLoaded", async function () {
         polyMarker.addTo(polyLayer);
         polyInfo.push(eachPoly)
 
-    } 
+    }
     polyLayer.addTo(baseLayer);
 
     let clubLayer = await loadClubInfo();
     clubLayer = L.geoJson(clubLayer.data, {
-        onEachFeature: function(feature, layer) {
+        onEachFeature: function (feature, layer) {
             let newDiv = document.createElement("div");
 
             newDiv.innerHTML = feature.properties.Description
@@ -87,7 +87,7 @@ window.addEventListener("DOMContentLoaded", async function () {
             </div>`)
         }
     }).addTo(map)
-    
+
     let parkingLots = await getLots();
     let availableLots = await getCarparks();
 
@@ -108,7 +108,7 @@ window.addEventListener("DOMContentLoaded", async function () {
                     "lot_type": availableLots[free].carpark_info[0].lot_type,
                     "lots_available": availableLots[free].carpark_info[0].lots_available,
                     "total_lots": availableLots[free].carpark_info[0].total_lots,
-                    "last_updated" : availableLots[free].update_datetime,
+                    "last_updated": availableLots[free].update_datetime,
                     "car_park_type": parkingLots[eachLot].car_park_type,
                     "parking_system": parkingLots[eachLot].type_of_parking_system,
                     "free_parking": parkingLots[eachLot].free_parking
@@ -150,7 +150,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
     baseLayer.clearLayers()
 
     let polyList = document.querySelector("#mainList");
-    
+
     for (let each of polyInfo) {
         let coordinate = [each.geocodes.main.latitude, each.geocodes.main.longitude];
         let listItems = document.createElement('div');
@@ -176,38 +176,38 @@ document.querySelector('#myButton').addEventListener('click', function () {
         let circle = L.circle(coordinate, 500)
         // map.fitBounds(circle.getBounds());
         polyMarker.on('click', function (showCircle) {
-            let result = (circle.contains(polyMarker.getLatLng())) 
+            let result = (circle.contains(polyMarker.getLatLng()))
             if (result <= circle.radius)
-            circle.addTo(searchResult)
+                circle.addTo(searchResult)
             parkingGroup.addTo(searchResult)
-          })
-        
-        
+        })
+
+
         polyLayer.addTo(searchResult)
         // parkingGroup.addTo(searchResult)
         polyList.appendChild(listItems);
-        
-    } 
+
+    }
 })
 
 
 
 
 OneMapSG.addTo(tileLayers),
-mainView.addTo(tileLayers)
+    mainView.addTo(tileLayers)
 let radioButton = {
-    "Main View" : mainView,
-    "MRT Lines" : OneMapSG,
+    "Main View": mainView,
+    "MRT Lines": OneMapSG,
 }
 
 let layerCheckbox = {
-    "View All" : baseLayer,
+    "View All": baseLayer,
     "Polyclinics": polyLayer,
     "Parking Lots": parkingGroup,
     // "Community Clubs": clubLayer,
 }
 
-L.control.layers(radioButton,layerCheckbox).addTo(map);
+L.control.layers(radioButton, layerCheckbox).addTo(map);
 let currentLocation = L.control.locate({
     drawMarker: true,
     showCompass: true,
@@ -218,7 +218,7 @@ console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCent
 console.log(user)
 
 
-let scrollDiv = document.querySelector("#mainList") 
+let scrollDiv = document.querySelector("#mainList")
 L.DomEvent.disableScrollPropagation(scrollDiv);
 
 document.querySelector("#enter").addEventListener("click", function () {
@@ -237,4 +237,40 @@ document.querySelector("#enter").addEventListener("click", function () {
     map.classList.add("shown")
 })
 
-
+document.querySelector("#sendButton").addEventListener("click", function () {
+    let nameEmpty = false;
+    let nameTooShort = false;
+    let invalidEmail = false;
+    let name = document.querySelector("#inputName").value;
+    if (!name) {
+        nameEmpty = true;
+    } else if (name.length < 3) {
+        nameTooShort = true;
+    }
+    let email = document.querySelector("#inputEmail").value;
+    if (!email.includes(".") || !email.includes("@")) {
+        invalidEmail = true;
+    }
+    if (nameEmpty || nameTooShort || invalidEmail) {
+        let error = document.querySelector("#errorMessage");
+        error.innerHTML = "";
+        error.style.display = "block";
+        if (nameEmpty) {
+            error.innerHTML += `<p>Please fill in your name.</p>`;
+        }
+        if (nameTooShort) {
+            error.innerHTML += '<p>Please enter your full name.</p>';
+        }
+        if (invalidEmail) {
+            error.innerHTML += '<p>Email should contain one . and one @</p>';
+        }
+    }
+    else {
+        let success = document.getElementById("success");
+        let error = document.querySelector("#errorMessage");
+        error.style.display = "none"
+        success.innerHTML = "";
+        success.style.display = "block"
+        success.innerHTML = "Thank you! Your email has been added."
+    }
+})
