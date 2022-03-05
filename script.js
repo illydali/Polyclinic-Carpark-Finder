@@ -33,26 +33,26 @@ let parkingIcon = L.icon({
 })
 
 // setting up layers
-let tileLayers = L.layerGroup()
+let tileLayers = L.layerGroup();
+let baseLayer = L.layerGroup();
 let polyLayer = L.markerClusterGroup();
 let parkingGroup = L.markerClusterGroup();
-// let polyMarker = L.marker;
-let baseLayer = L.layerGroup()
-let searchResult = L.layerGroup()
+let searchResult = L.layerGroup();
 searchResult.addTo(map);
 
-
-let carparkData = []
+let clubLayer = loadClubInfo()
+let carparkData = [];
 let polyInfo = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
     baseLayer.clearLayers();
+    
     let location = await locationData();
     for (let eachPoly of location) {
         let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude]
         polyMarker = L.marker(polyCoordinates, { icon: polyIcon });
         polyMarker.bindPopup(`
-        <div class="card bg-light border-0 m-0 p-0" style="width: 10rem">
+        <div class="card bg-light m-0 p-0" style="width: 10rem">
         <div class="card-body" >
             <p class="card-title h6">${eachPoly.name}</p>
             <p class="card-subtitle h6 mb-2 text-muted">${eachPoly.location.formatted_address}</p>
@@ -61,7 +61,32 @@ window.addEventListener("DOMContentLoaded", async function () {
         polyMarker.addTo(polyLayer);
         polyInfo.push(eachPoly)
 
-    } polyLayer.addTo(baseLayer);
+    } 
+    polyLayer.addTo(baseLayer);
+
+    let clubLayer = await loadClubInfo();
+    clubLayer = L.geoJson(clubLayer.data, {
+        onEachFeature: function(feature, layer) {
+            let newDiv = document.createElement("div");
+
+            newDiv.innerHTML = feature.properties.Description
+            let columns = newDiv.querySelectorAll("td");
+
+            let name = columns[9].innerHTML;
+            let addressNumber = columns[0].innerHTML;
+            let postalCode = columns[2].innerHTML;
+            let streetName = columns[3].innerHTML;
+            let website = columns[6].innerHTML;
+
+            layer.bindPopup(`
+            
+            <div class="card-body p-0 m-0 text-center">
+                <p class="card-title fs-5">${name}</p> 
+                <p class="card-subtitle fs-6"> ${addressNumber}, ${streetName}, ${postalCode}</p>
+                <a href="#" class="card-link fs-6 fst-italic text-reset" >${website}</a>
+            </div>`)
+        }
+    }).addTo(map)
     
     let parkingLots = await getLots();
     let availableLots = await getCarparks();
@@ -106,7 +131,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         
         <h6>
         <i class="fa-solid fa-barcode"></i>
-        Carpark Type: ${carparkData[xy].parking_system}
+        Info: ${carparkData[xy].car_park_type}
         </h6>
        
         <h6>
@@ -124,55 +149,49 @@ document.querySelector('#myButton').addEventListener('click', function () {
     searchResult.clearLayers();
     baseLayer.clearLayers()
 
-    let searchResultElement = document.querySelector("#mainList");
+    let polyList = document.querySelector("#mainList");
     
     for (let each of polyInfo) {
         let coordinate = [each.geocodes.main.latitude, each.geocodes.main.longitude];
-
-        map.flyTo(coordinate, 16);
-        polyMarker.openPopup();
-        polyLayer.addTo(map);
-        // L.Circle.include({
-        //     contains: function (latlng) {
-        //         return this.getLatlng().distanceTo(latlng) < this.getRadius();
-        //     }
-        // })
-        // let circle = L.circle(coordinates, 500)
-        // map.fitBounds(circle.getBounds());
-        // polyMarker.on('click', function (showCircle) {
-        //     let result = (circle.contains(polyMarker.getLatLng())) 
-        //     if (result < circle.rad)
-        //     circle.addto(map)
-        //   });
-
-
-        let circle = L.circle([each.geocodes.main.latitude, each.geocodes.main.longitude], {
-            color: 'yellow',
-            fillColor: 'grey',
-            fillOpacity: 0.5,
-            radius: 500,
-        });
-
-        // let carparkInRadius =  user onclick select poly find radius and display markers of carparks around there.
-
         let listItems = document.createElement('div');
 
         listItems.innerHTML = `<class="card card-body">${each.name}</>
         `
         listItems.className = "list-result"
         listItems.addEventListener('click', function () {
-            map.flyTo(coordinate, 15);
-            polyMarker.openPopup();
+            map.flyTo(coordinate, 17);
+            polyMarker.openPopup(coordinate);
         })
-
-        circle.addTo(searchResult)
-        searchResultElement.appendChild(listItems);
-        parkingGroup.addTo(map)
-
-    }
-
-
+        // let circle = L.circle([each.geocodes.main.latitude, each.geocodes.main.longitude], {
+        //     color: 'yellow',
+        //     fillColor: 'grey',
+        //     fillOpacity: 0.5,
+        //     radius: 500,
+        // });
+        L.Circle.include({
+            contains: function (latlng) {
+                return this.getLatlng().distanceTo(latlng) < this.getRadius();
+            }
+        })
+        let circle = L.circle(coordinate, 500)
+        // map.fitBounds(circle.getBounds());
+        polyMarker.on('click', function (showCircle) {
+            let result = (circle.contains(polyMarker.getLatLng())) 
+            if (result <= circle.radius)
+            circle.addTo(searchResult)
+            parkingGroup.addTo(searchResult)
+          })
+        
+        
+        polyLayer.addTo(searchResult)
+        // parkingGroup.addTo(searchResult)
+        polyList.appendChild(listItems);
+        
+    } 
 })
+
+
+
 
 OneMapSG.addTo(tileLayers),
 mainView.addTo(tileLayers)
@@ -185,6 +204,7 @@ let layerCheckbox = {
     "View All" : baseLayer,
     "Polyclinics": polyLayer,
     "Parking Lots": parkingGroup,
+    // "Community Clubs": clubLayer,
 }
 
 L.control.layers(radioButton,layerCheckbox).addTo(map);
@@ -194,41 +214,27 @@ let currentLocation = L.control.locate({
 }).addTo(map);
 
 let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng]
-
 console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng)
 console.log(user)
-
-// function carparkInRadius(user) {
-
-//     let newLayer = L.markerClusterGroup()
-//     for (let item in polyInfo) {
-//         let latPos = user[0];
-//         let lngPos = user[1];
-//         let latCP = polyInfo.geocodes.main.latitude;
-//         let lngCP = polyInfo.geocodes.main.longitude;
-//         let distance = getDistanceFromLatLonInKm(latPos, lngPos, latCP, lngCP).toFixed(2) * 1000;
-//         if (distance <= radius && test[item].lots_available > 0) {
-//             var cp = {
-//                 lat: latCP,
-//                 lng: lngCP
-//             }
-//             let marker = L.marker(cp)
-//             marker.addTo(newLayer)
-//         } newLayer.addTo(map)
-//     }
-// }
 
 
 let scrollDiv = document.querySelector("#mainList") 
 L.DomEvent.disableScrollPropagation(scrollDiv);
 
 document.querySelector("#enter").addEventListener("click", function () {
+    let side = document.querySelector("#info-side-bar");
+    side.style = "z-index: 1030"
+    side.classList.remove("hidden")
+    side.classList.add("shown")
+
+
     let form = document.querySelector("#overlay");
-    form.classList.remove("show");
+    form.classList.remove("shown");
     form.classList.add("hidden");
 
     let map = document.querySelector("#main-map")
     map.classList.remove("hidden")
-    map.classList.add("show")
+    map.classList.add("shown")
 })
+
 

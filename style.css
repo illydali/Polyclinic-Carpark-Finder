@@ -24,9 +24,7 @@ html {
     overflow-y: auto
 }
 
-.modal {
-    z-index: 314159;
-}
+
 /* parent container */ 
 
 /* #all-pages {
@@ -59,14 +57,14 @@ html {
     height: 100vh;
 }
 .navbar {
-    background-color: #2c3531 !important;
+    background-color: #e1f4eb !important;
 }
 
 .nav-link { 
-    color: #a4a71e !important;
+    color: #050234 !important;
 }
 .navbar-brand {
-    color: #d6ce15 !important;
+    color: #222541 !important;
 }
 
 .hidden {
@@ -74,23 +72,19 @@ html {
     transition: transform 1s;
 }
 
-.show {
+.shown {
     transform: translateY(0);
     transition: transform 1s;
 }
 
-#search-tab {
+/* #search-tab {
     position:absolute;
     bottom: 100px;
     left: 50px;
     z-index: 314159;
     max-height: 500px;
   
-}
- 
-#search-btn {
-    margin-left: 10px;
-}
+} */
 
 /* leaflet edits */
 /* .leaflet-popup-content-wrapper, .leaflet-popup-tip{
@@ -107,7 +101,8 @@ html {
     font-family: 'Cormorant Garamond', serif;
     font-size: 12px;
     background-color: #eee6c2;
-    background-image: url("/icons/search.png") !important;
+    /* background-image: url("/icons/search.png") !important; */
+    content: "\e0ad"
 }
 
 .leaflet-control-layers {
@@ -124,15 +119,46 @@ html {
 } */
 
 /* bootstrap edits */
-.card {
+/* .card {
     background-color:  lightgoldenrodyellow  !important;
     border: 0;
     font-family: 'Roboto', sans-serif !important;
     
-}
+} */
 
 #mainList {
     overflow: scroll;
     height: 200px;
     overscroll-behavior: contain;
 }
+
+#info-side-bar{
+    background-color: rgb(255, 255, 255);
+    font-family: 'Ubuntu', sans-serif;
+    /* z-index: 1030; */
+    position: absolute;
+    width: auto;
+    left: 200px;
+    bottom: 30px;
+  }
+  
+  #nav-filter-search {
+    color: #FFA200;
+  }
+  
+  #nav-filter-pools {
+    color: #005DFF;
+  }
+  
+  #nav-filter-parks {
+    color: #009C5E;
+  }
+  
+  #search-bar {
+    min-width: 200px;
+  }
+  
+  #searchResult{
+    height: 200px;
+    overflow-y: scroll;
+  }
