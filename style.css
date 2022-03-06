@@ -1,69 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Lora&family=Roboto:wght@100&family=Source+Sans+Pro:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=DM+Serif+Display&family=Squada+One&display=swap');
+
 
 html {
     height: 100%;
 }
 #overlay {
-    position: fixed; /* Sit on top of the page content */
-    width: 100%; /* Full width (cover the whole page) */
-    height: 100%; /* Full height (cover the whole page) */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
-    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    position: fixed; 
+    width: 100%;
+    height: 100%; 
+    inset: 0;
+    background-color: rgba(0,0,0,0.5); 
+    z-index: 2; 
     cursor: pointer; /* Add a pointer on hover */
-    background-image: url("icons/circle.jpg");
+    background-image: url("images/circle.jpg");
     background-size: cover;
     background-position: center;
 }
 
+h1 {
+    font-family: 'Black Han Sans', sans-serif;
+}
 .modal-open .modal {
     overflow-x: hidden;
     overflow-y: auto
 }
 
-
-/* parent container */ 
-
-/* #all-pages {
-    position: relative;
-} */
-/* .page {
-    height: 100vh;
-    box-sizing: border-box; 
-    position: absolute;
-    width: 100vw;
-} */
-/* #home {
-    background-image: url("icons/crossing.jpg");
-    width: 100%;
-    height: 100%;
-    background-color: #999;
-    background-repeat:no-repeat;
-    background-size:contain;
-    background-blend-mode: multiply;
-    transition: all .2s ease;
-
-} */
-
-/* .home {
-    width: 100%;
-    height: 100%
-} */
-
 #main-map {
     height: 100vh;
 }
-.navbar {
-    background-color: #e1f4eb !important;
-}
+/* .navbar {
+    background-color: #F5F5F5 !important;
+} */
 
 .nav-link { 
     color: #050234 !important;
 }
 .navbar-brand {
+    font-family: 'Black Han Sans', sans-serif;
     color: #222541 !important;
 }
 
@@ -77,15 +51,6 @@ html {
     transition: transform 1s;
 }
 
-/* #search-tab {
-    position:absolute;
-    bottom: 100px;
-    left: 50px;
-    z-index: 314159;
-    max-height: 500px;
-  
-} */
-
 /* leaflet edits */
 /* .leaflet-popup-content-wrapper, .leaflet-popup-tip{
     background-color: lightgoldenrodyellow;
@@ -98,11 +63,10 @@ html {
 }
 
 .leaflet-control-layers-toggle {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'DM Serif Display', serif !important;
     font-size: 12px;
     background-color: #eee6c2;
     /* background-image: url("/icons/search.png") !important; */
-    content: "\e0ad"
 }
 
 .leaflet-control-layers {
@@ -119,12 +83,12 @@ html {
 } */
 
 /* bootstrap edits */
-/* .card {
-    background-color:  lightgoldenrodyellow  !important;
+.card {
+    /* background-color:  lightgoldenrodyellow  !important; */
     border: 0;
-    font-family: 'Roboto', sans-serif !important;
+    font-family: 'DM Serif Display', serif !important;
     
-} */
+}
 
 #mainList {
     overflow: scroll;
@@ -133,32 +97,22 @@ html {
 }
 
 #info-side-bar{
-    background-color: rgb(255, 255, 255);
-    font-family: 'Ubuntu', sans-serif;
+    background-color: #F5F5F5;
+    font-family: 'DM Serif Display', serif !important;
     /* z-index: 1030; */
     position: absolute;
     width: auto;
     left: 200px;
     bottom: 30px;
-  }
-  
-  #nav-filter-search {
-    color: #FFA200;
-  }
-  
-  #nav-filter-pools {
-    color: #005DFF;
-  }
-  
-  #nav-filter-parks {
-    color: #009C5E;
-  }
-  
-  #search-bar {
-    min-width: 200px;
-  }
-  
-  #searchResult{
-    height: 200px;
-    overflow-y: scroll;
-  }
+}
+
+
+@media (max-width: 575.98px) { 
+    
+    #myTabContent {
+        /* overflow-y: scroll;   */
+        height: auto;
+    }
+    
+
+}

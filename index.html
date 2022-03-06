@@ -15,7 +15,6 @@
     crossorigin="" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.css" />
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -24,7 +23,7 @@
 
   <!-- Own CSS -->
   <link rel="stylesheet" href="style.css">
-  <title>SG Polyclinic Carpark Finder</title>
+  <title>Parkade</title>
   <link rel="icon" type="image/x-icon" href="icons/heart-logo.png">
 </head>
 
@@ -48,7 +47,7 @@
 
   <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
-      <a class="navbar-brand light-link" id="home" href="#">Finder Map
+      <a class="navbar-brand light-link" id="home" href="#">Parkade
         <img src="icons/heart-logo.png" alt="Heart Logo" style="width:25px" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my-navbar">
@@ -71,11 +70,11 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="about-modal-title">Modal title</h5>
+            <h5 class="modal-title" id="about-modal-title">Objective</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
           <div class="modal-body">
-            ...
+          For easy viewwing of available carpark locations.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -96,13 +95,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          
+
           <form autocomplete="off">
             <div class="mb-3">
               <label for="name" class="form-label">Name</label>
               <input type="text" class="form-control" id="inputName" aria-describedby="nameInput">
             </div>
-         
+
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
               <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp">
@@ -120,59 +119,39 @@
     </div>
   </div>
 
-
-  <!-- 
-    <div id="overlay" class="m-0 p-0 mx-auto" id="home" class="shown page">
-      <div class="home row align-items-center ml-0">
-        <div class="mx-auto text-center px-0 ">
-          <img src="icons/heart-logo.png" width="140" class="text-shadow">
-          <div class="mt-3 px-3">
-            <h1 class="text-white text-shadow">Got Lots?</h1>
-            <p class="text-white text-shadow">...</p>
-            <div class="input-group mb-2 mx-auto text-shadow">
-              <button id="enter" class="btn btn-success mx-auto">Enter Here</button>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
-
-
   <!-- map div -->
   <div id="main-map" id="page-one" class="hidden"></div>
 
+  <!--tab info-->
   <div class="row justify-content-left">
     <div id="info-side-bar" class="pr-0 rounded hidden">
 
-      <!-- 4 tabs -->
+      <!-- tab bar -->
       <ul class="nav nav-tabs shadow" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link" id="poly-list" data-bs-toggle="tab" data-bs-target="#polyclinics" role="tab"
-            aria-controls="polyclinic-list" aria-selected="false"><i class="fas fa-tree"></i> Polyclinics</a>
+          <button class="nav-link" id="nav-poly-list" data-bs-toggle="tab" data-bs-target="#polyclinicList" href="#"
+            aria-controls="polyclinic-list" aria-selected="false"><i class="fas fa-tree"></i>Polyclinics</button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="polyclinic-list" data-bs-toggle="tab" data-bs-target="#polyclinic" role="tab"
-            aria-controls="filter" aria-selected="false"><i class="fas fa-water"></i> Community Club Info </a>
+          <button class="nav-link" id="nav-layers" data-bs-toggle="tab" data-bs-target="#selectLayers" href="#"
+            aria-controls="filter" aria-selected="false"><i class="fas fa-water"></i> Select filters </button>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="nav-filter-search" data-bs-toggle="tab" data-bs-target="#nav-search" role="button"
-            aria-controls="search" aria-selected="false"><i class="fas fa-search"></i> Search </a>
+          <button class="nav-link" id="nav-finder" data-bs-toggle="tab" data-bs-target="#finder" href="#"
+            aria-controls="search" aria-selected="false"><i class="fa-solid fa-compass"></i> Find You </button>
         </li>
-        <li class="nav-item dropup">
-          <a class="nav-link active dropdown-toggle" id="nav-toggle" data-bs-toggle="tab"
-            data-bs-toggle="dropdown-toggle" data-bs-target="#" role="tab" aria-controls="nav-toggle"
-            aria-selected="true"><i class="fas fa-caret-down"></i></a>
+        <li class="nav-item">
+          <button class="nav-link" id="nav-toggle" data-bs-toggle="tab" href="#" role="tab"
+            aria-controls="nav-toggle" aria-selected="false"><i class="fas fa-caret-up"></i></button>
         </li>
       </ul>
-      <!-- all tab content -->
+      <!-- tab content -->
       <div class="tab-content shadow" id="myTabContent">
 
         <!-- my polyclinic list -->
-        <div class="tab-pane" id="polyclinics" id="search-tab" role="tabpanel" aria-labelledby="polyclinic-list-tab">
+        <div class="tab-pane fade show active" id="polyclinicList" id="search-tab" role="tabpanel" aria-labelledby="polyclinic-list-tab">
           <div class="px-4 py-3">
-            <h6 id="myButton"> Polyclinic List</h6>
+            <button class="btn btn-sm rounded-pill btn-warning" id="myButton"> Polyclinic List</button>
             <hr>
             <div class="row">
               <div class="card card-body px-2" id="mainList">
@@ -181,44 +160,41 @@
           </div>
         </div>
 
-        <!-- Dog pool Tab -->
-        <div class="tab-pane" id="polyclinic" role="tabpanel" aria-labelledby="nav-dogpools">
+        <!-- Select Layers -->
+        <div class="tab-pane fade" id="selectLayers" role="tabpanel" aria-labelledby="nav-filter-layers">
           <div class="px-4 py-3">
-            <h6> Community Clubs </h6>
-            <hr>
-          </div>
-        </div>
-        <!-- Search Bar Tab -->
-        <div class="tab-pane" id="nav-search" role="tabpanel" aria-labelledby="nav-search">
-          <div class="px-4 py-3">
-            <h6> What are you searching for? </h6>
-            <div class="row mx-0" id="search-bar-wrapper">
-              <div class="p-0 col bg-light">
-                <div class="input-group mx-auto" id="search-bar">
-                  <input type="text" class="form-control rounded" id="searchQuery" placeholder="e.g. West or Park">
-                  <div class="input-group-append">
-                    <button class="btn btn-sm btn-success border-white text-white" id="btn-search">Search</button>
-                  </div>
-                </div>
-                <hr>
-                <div id="searchResult" class="m-0 p-0">
-
-                </div>
+            <div class="px-5 pt-5 pb-3">
+            </div>
+            <hr class="mx-3" />
+  
+            <div class="px-5">
+              <h5 class="bluetext">Select</h5>
+              <div class="pt-2">
+                <input type="checkbox" id="1" name="show-layers" value="parking-group" onchange="processCheck(this)"/> Show carparks  <br />
+              </div>
+              <div class="pt-1">
+                <input type="checkbox" id="2" name="show-layers" value="poly-layer" onchange="processCheck(this)"/> Show Polyclinics <br />
+              </div>
+              <div class="pt-2">
+                <input type="checkbox" id="3" name="show-layers" value="community-centres" onchange="processCheck(this)"/> Show Community Clubs <br />
               </div>
             </div>
-            <hr>
-            <div class="row">
-              <div class="col">
-                <button class="btn btn-reset btn-sm btn-danger border-white text-white ">Reset</button>
-              </div>
+            <hr class="mx-3" />
+            <div class="px-5 pt-3 col">
+              <button id="btn-reset" class="btn btn-primary lightbrown border-white text-white ">Reset</button>
             </div>
           </div>
         </div>
+        <!-- Get location -->
+        <div class="tab-pane fade" id="finder" role="tabpanel" aria-labelledby="nav-layers">
+          
+        </div>
+        
       </div>
     </div>
- 
-  </div>
 
+  </div>
+    
   <!-- <nav class="navbar navbar-light navbar-expand-sm text-white fixed-bottom">
     Information from data.gov.sg | developer.foursquare.com
   </nav> -->
@@ -230,8 +206,6 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"
-    charset="utf-8"></script>
 
   <!-- Axios -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js"

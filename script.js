@@ -21,7 +21,7 @@ proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333
 
 // setting up icons
 let polyIcon = L.icon({
-    iconUrl: '/icons/health-care.svg',
+    iconUrl: '/icons/clinic.svg',
     iconSize: [40, 40],
     popupAnchor: [0, 0]
 });
@@ -32,17 +32,29 @@ let parkingIcon = L.icon({
     popupAnchor: [0, 0]
 })
 
+let userIcon = L.icon({
+    iconUrl: '/icons/person.svg',
+    iconSize: [40, 40],
+    popupAnchor: [0, 0]
+})
+
+let ccInfo = L.icon({
+    iconSize: [40, 40]
+})
+
 // setting up layers
-let tileLayers = L.layerGroup();
 let baseLayer = L.layerGroup();
+let tileLayers = L.layerGroup();
 let polyLayer = L.markerClusterGroup();
 let parkingGroup = L.markerClusterGroup();
 let searchResult = L.layerGroup();
+let clubLayer = L.geoJson();
+layerUserLocation = L.layerGroup()
 searchResult.addTo(map);
 
-let clubLayer = loadClubInfo()
 let carparkData = [];
 let polyInfo = [];
+let communityData = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
     baseLayer.clearLayers();
@@ -52,32 +64,30 @@ window.addEventListener("DOMContentLoaded", async function () {
         let polyCoordinates = [eachPoly.geocodes.main.latitude, eachPoly.geocodes.main.longitude]
         polyMarker = L.marker(polyCoordinates, { icon: polyIcon });
         polyMarker.bindPopup(`
-        <div class="card bg-light m-0 p-0" style="width: 10rem">
-        <div class="card-body" >
-            <p class="card-title h6">${eachPoly.name}</p>
-            <p class="card-subtitle h6 mb-2 text-muted">${eachPoly.location.formatted_address}</p>
-        </div>
-        </div>`)
+        <h6>
+        <img src="icons/clinic-info.png"/>        
+        ${eachPoly.name}</h6>
+        <br>
+        <h6 mb-2 text-muted">${eachPoly.location.formatted_address}</h6>        
+        `)
         polyMarker.addTo(polyLayer);
         polyInfo.push(eachPoly)
 
     }
     polyLayer.addTo(baseLayer);
 
-    let clubLayer = await loadClubInfo();
-    clubLayer = L.geoJson(clubLayer.data, {
+    let geoClubFeature = await loadClubInfo();
+    clubLayer.addData(geoClubFeature, {
         onEachFeature: function (feature, layer) {
             let newDiv = document.createElement("div");
 
             newDiv.innerHTML = feature.properties.Description
             let columns = newDiv.querySelectorAll("td");
-
             let name = columns[9].innerHTML;
             let addressNumber = columns[0].innerHTML;
             let postalCode = columns[2].innerHTML;
             let streetName = columns[3].innerHTML;
             let website = columns[6].innerHTML;
-
             layer.bindPopup(`
             
             <div class="card-body p-0 m-0 text-center">
@@ -86,7 +96,8 @@ window.addEventListener("DOMContentLoaded", async function () {
                 <a href="#" class="card-link fs-6 fst-italic text-reset" >${website}</a>
             </div>`)
         }
-    }).addTo(map)
+
+    }).addTo(baseLayer)
 
     let parkingLots = await getLots();
     let availableLots = await getCarparks();
@@ -121,8 +132,9 @@ window.addEventListener("DOMContentLoaded", async function () {
         let lotCoords = [carparkData[xy].lng, carparkData[xy].lat] // [0].lat
         let marker = L.marker(lotCoords, { icon: parkingIcon });
         marker.bindPopup(`
+        <h6>
         <img src="icons/car.png"/>
-        <h6>${carparkData[xy].carpark_number}: ${carparkData[xy].address}</h6>
+        ${carparkData[xy].carpark_number}: ${carparkData[xy].address}</h6>
         
         <h6>
         <i class="fa-solid fa-car-side"></i>
@@ -151,47 +163,31 @@ document.querySelector('#myButton').addEventListener('click', function () {
 
     let polyList = document.querySelector("#mainList");
 
+    L.Circle.include({
+        contains: function (latlng) {
+            return this.getLatlng().distanceTo(latlng) < this.getRadius();
+        }
+    })
+
     for (let each of polyInfo) {
         let coordinate = [each.geocodes.main.latitude, each.geocodes.main.longitude];
         let listItems = document.createElement('div');
+        let circle = L.circle(coordinate, 500)
 
         listItems.innerHTML = `<class="card card-body">${each.name}</>
         `
         listItems.className = "list-result"
         listItems.addEventListener('click', function () {
-            map.flyTo(coordinate, 17);
-            polyMarker.openPopup(coordinate);
-        })
-        // let circle = L.circle([each.geocodes.main.latitude, each.geocodes.main.longitude], {
-        //     color: 'yellow',
-        //     fillColor: 'grey',
-        //     fillOpacity: 0.5,
-        //     radius: 500,
-        // });
-        L.Circle.include({
-            contains: function (latlng) {
-                return this.getLatlng().distanceTo(latlng) < this.getRadius();
-            }
-        })
-        let circle = L.circle(coordinate, 500)
-        // map.fitBounds(circle.getBounds());
-        polyMarker.on('click', function (showCircle) {
-            let result = (circle.contains(polyMarker.getLatLng()))
-            if (result <= circle.radius)
-                circle.addTo(searchResult)
+            circle.addTo(searchResult)
             parkingGroup.addTo(searchResult)
+            map.flyTo(coordinate, 17);
+            polyMarker.openPopup();
         })
-
-
         polyLayer.addTo(searchResult)
-        // parkingGroup.addTo(searchResult)
+        parkingGroup.addTo(searchResult)
         polyList.appendChild(listItems);
-
     }
 })
-
-
-
 
 OneMapSG.addTo(tileLayers),
     mainView.addTo(tileLayers)
@@ -204,19 +200,10 @@ let layerCheckbox = {
     "View All": baseLayer,
     "Polyclinics": polyLayer,
     "Parking Lots": parkingGroup,
-    // "Community Clubs": clubLayer,
+    "Community Clubs": clubLayer,
 }
 
 L.control.layers(radioButton, layerCheckbox).addTo(map);
-let currentLocation = L.control.locate({
-    drawMarker: true,
-    showCompass: true,
-}).addTo(map);
-
-let user = [currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng]
-console.log(currentLocation._map._lastCenter.lat, currentLocation._map._lastCenter.lng)
-console.log(user)
-
 
 let scrollDiv = document.querySelector("#mainList")
 L.DomEvent.disableScrollPropagation(scrollDiv);
@@ -227,7 +214,6 @@ document.querySelector("#enter").addEventListener("click", function () {
     side.classList.remove("hidden")
     side.classList.add("shown")
 
-
     let form = document.querySelector("#overlay");
     form.classList.remove("shown");
     form.classList.add("hidden");
@@ -235,6 +221,8 @@ document.querySelector("#enter").addEventListener("click", function () {
     let map = document.querySelector("#main-map")
     map.classList.remove("hidden")
     map.classList.add("shown")
+
+    showCurrentLocation()
 })
 
 document.querySelector("#sendButton").addEventListener("click", function () {
@@ -273,4 +261,74 @@ document.querySelector("#sendButton").addEventListener("click", function () {
         success.style.display = "block"
         success.innerHTML = "Thank you! Your email has been added."
     }
+})
+
+function showCurrentLocation() {
+    map.locate({ setView: true, maxZoom: 16 });
+    map.on('locationfound', onLocationFound);
+    map.on('locationerror', onLocationError);
+}
+function onLocationFound(e) {
+    layerUserLocation.clearLayers();
+    map.removeLayer(layerUserLocation);
+
+    let radius = 500;
+    let user = L.marker(e.latlng, { icon: userIcon });
+    user.addTo(layerUserLocation);
+    user.bindPopup(`You are here!`).openPopup();
+    L.circle(e.latlng, radius).addTo(layerUserLocation);
+    parkingGroup.addTo(layerUserLocation)
+    layerUserLocation.addTo(map)
+}
+function onLocationError(e) {
+    if (map.hasLayer(layerUserLocation)) {
+        layerUserLocation.clearLayers();
+        map.removeLayer(layerUserLocation);
+    }
+    alert(e.message, "Current Location not detected.");
+}
+
+let rBtn = document.getElementsByClassName(".radio")
+for (r of rBtn) {
+    let newTile = document.getElementById("radio2").value
+    let base = document.getElementById("radio1").value
+    if (newTile == "switch-tile") {
+        tileLayers.addTo(map)
+    } else {
+    if (base == "main-tile") {
+        baseLayer.addTo(map)
+    }
+}}
+
+let myLayers = [parkingGroup, polyLayer, clubLayer]
+let val = null
+function processCheck(checkbox) {
+
+    baseLayer.clearLayers()
+    let checkId = checkbox.id;
+    if (checkbox.checked) {
+        if (val != null) {
+            map.removelayer(myLayers[val - 1]);
+            document.getElementById(val).checked = false;
+        }
+        myLayers[checkId - 1].addTo(map);
+        val = checkId;
+    }
+    else {
+        map.removeLayer(myLayers[checkId - 1]);
+        val = null;
+    }
+}
+
+// let btn = document.getElementById('#btn-reset')
+// btn.addEventListener("click"(function(){
+//     clearAllLayers()
+//     resetMapView()
+//     document.querySelector("input[name='show-tile']").prop('checked', false)
+//     document.querySelector("input[name='show-layers']").prop('checked', false)
+// }))
+
+document.querySelector('#nav-toggle').click(function () {
+    document.querySelector('#myTabContent').slideToggle()
+    document.querySelector('#tab-toggle i').classList.toggle('fa-rotate-180')
 })
