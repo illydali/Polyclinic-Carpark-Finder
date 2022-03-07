@@ -5,7 +5,7 @@
 html {
     height: 100%;
 }
-#overlay {
+#homepage {
     position: fixed; 
     width: 100%;
     height: 100%; 
@@ -18,7 +18,10 @@ html {
     background-position: center;
 }
 
-h1 {
+h1{
+    font-family: 'Black Han Sans', sans-serif;
+}
+#enter {
     font-family: 'Black Han Sans', sans-serif;
 }
 .modal-open .modal {
@@ -81,11 +84,6 @@ h1 {
     background-color: #f3f2ef;
 }
 
-/* .leaflet-container {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: bold !important;
-} */
-
 /* bootstrap edits */
 .card {
     /* background-color:  lightgoldenrodyellow  !important; */
@@ -96,16 +94,17 @@ h1 {
 
 #mainList {
     overflow: scroll;
-    height: 200px;
+    height: 100px;
     overscroll-behavior: contain;
 }
 
-#info-side-bar{
+#infoBar{
     background-color: #F5F5F5;
     font-family: 'DM Serif Display', serif !important;
     /* z-index: 1030; */
     position: absolute;
     width: auto;
+    max-height: 300px;
     left: 200px;
     bottom: 30px;
 }
@@ -113,7 +112,7 @@ h1 {
 
 @media (max-width: 575.98px) { 
     
-    #info-side-bar {
+    #infoBar {
         overflow-y: scroll;  
         left: 0px;
         width: auto

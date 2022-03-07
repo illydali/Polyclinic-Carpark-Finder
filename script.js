@@ -49,12 +49,12 @@ let polyLayer = L.markerClusterGroup();
 let parkingGroup = L.markerClusterGroup();
 let searchResult = L.layerGroup();
 let clubLayer = L.geoJson();
-layerUserLocation = L.layerGroup()
+let layerUserLocation = L.layerGroup()
+
 searchResult.addTo(map);
 
 let carparkData = [];
 let polyInfo = [];
-let communityData = [];
 
 window.addEventListener("DOMContentLoaded", async function () {
     baseLayer.clearLayers();
@@ -65,7 +65,7 @@ window.addEventListener("DOMContentLoaded", async function () {
         polyMarker = L.marker(polyCoordinates, { icon: polyIcon });
         polyMarker.bindPopup(`
         <h6>
-        <img src="icons/clinic-info.png"/>        
+        <img src="icons/clinic-info.png">        
         ${eachPoly.name}</h6>
         <br>
         <h6 mb-2 text-muted">${eachPoly.location.formatted_address}</h6>        
@@ -77,7 +77,7 @@ window.addEventListener("DOMContentLoaded", async function () {
     polyLayer.addTo(baseLayer);
 
     let geoClubFeature = await loadClubInfo();
-    clubLayer.addData(geoClubFeature, {
+    clubLayer = new L.geoJson(geoClubFeature, {
         onEachFeature: function (feature, layer) {
             let newDiv = document.createElement("div");
 
@@ -209,14 +209,14 @@ let scrollDiv = document.querySelector("#mainList")
 L.DomEvent.disableScrollPropagation(scrollDiv);
 
 document.querySelector("#enter").addEventListener("click", function () {
-    let side = document.querySelector("#info-side-bar");
-    side.style = "z-index: 1030"
-    side.classList.remove("hidden")
-    side.classList.add("shown")
+    let info = document.querySelector("#infoBar");
+    info.style = "z-index: 1030"
+    info.classList.remove("hidden")
+    info.classList.add("shown")
 
-    let form = document.querySelector("#overlay");
-    form.classList.remove("shown");
-    form.classList.add("hidden");
+    let home = document.querySelector("#homepage");
+    home.classList.remove("shown");
+    home.classList.add("hidden");
 
     let map = document.querySelector("#main-map")
     map.classList.remove("hidden")
@@ -274,7 +274,7 @@ function onLocationFound(e) {
     let radius = 500;
     let user = L.marker(e.latlng, { icon: userIcon });
     user.addTo(layerUserLocation);
-    user.bindPopup(`Carparks within 500m of you`).openPopup();
+    user.bindPopup(`You are currently here`).openPopup();
     L.circle(e.latlng, radius).addTo(layerUserLocation);
     parkingGroup.addTo(layerUserLocation)
     layerUserLocation.addTo(map)
@@ -291,12 +291,15 @@ document.getElementById("nav-finder").addEventListener("click", function () {
     showCurrentLocation()
 })
 
+document.getElementById("reset").addEventListener("click", function () {
+    map.removeLayer(layerUserLocation)
+})
+
 let checkboxes = document.querySelectorAll(".checkgroup");
 
 for (each of checkboxes) {
     each.addEventListener("click", function () {
         let val = (this.value)
-        // console.log(val)
         if (val == "parking-group") {
             if (document.getElementById("park").checked) {
                 parkingGroup.addTo(map)
@@ -313,34 +316,6 @@ for (each of checkboxes) {
     })
 }
 
-// let myLayers = [parkingGroup, polyLayer, clubLayer]
-// let val = null
-// function processCheck(checkbox) {
-
-//     baseLayer.clearLayers()
-//     let checkId = checkbox.id;
-//     if (checkbox.checked) {
-//         if (val != null) {
-//             map.removeLayer(myLayers[val - 1])
-//             document.getElementById(val).checked = false;
-//         }
-//         myLayers[checkId - 1].addTo(map);
-//         val = checkId;
-//     }
-//     else {
-//         map.removeLayer(myLayers[checkId - 1]);
-//         val = null;
-//     }
-// }
-
-document.getElementById("reset-checkbox").addEventListener("click,", function () {
-    // baseLayer.clearLayers()
-    // document.querySelectorAll(".checkgroup").each(function () {
-    //     this.checked = false
-    // })
-    console.log("here")
-})
-
 document.getElementById("nav-toggle").addEventListener("click", function () {
     let isShown = false;
     for (let pane of document.querySelectorAll(".tab-pane")) {
@@ -352,6 +327,7 @@ document.getElementById("nav-toggle").addEventListener("click", function () {
         for (let pane of document.querySelectorAll(".tab-pane")) {
             pane.classList.remove("show");
             pane.classList.remove("active");
+            pane.classList.remove("fade")
         }
     }
 })
