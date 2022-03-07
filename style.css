@@ -12,7 +12,7 @@ html {
     inset: 0;
     background-color: rgba(0,0,0,0.5); 
     z-index: 2; 
-    cursor: pointer; /* Add a pointer on hover */
+    cursor: pointer;
     background-image: url("images/circle.jpg");
     background-size: cover;
     background-position: center;
@@ -23,24 +23,32 @@ h1 {
 }
 .modal-open .modal {
     overflow-x: hidden;
-    overflow-y: auto
+    overflow-y: auto;
+    font-family: 'DM Serif Display', serif !important;
 }
 
 #main-map {
     height: 100vh;
 }
-/* .navbar {
+.navbar {
     background-color: #F5F5F5 !important;
-} */
+}
 
 .nav-link { 
+    font-family: 'DM Serif Display', serif !important;
     color: #050234 !important;
 }
 .navbar-brand {
     font-family: 'Black Han Sans', sans-serif;
     color: #222541 !important;
 }
-
+.nav-link { 
+    font-family: 'DM Serif Display', serif !important;
+    color: #050234 !important;
+}
+.navbar-toggler, .navbar-toggler-icon {
+    color: #050234 !important;
+}
 .hidden {
     transform: translateY(100%);
     transition: transform 1s;
@@ -65,12 +73,12 @@ h1 {
 .leaflet-control-layers-toggle {
     font-family: 'DM Serif Display', serif !important;
     font-size: 12px;
-    background-color: #eee6c2;
-    /* background-image: url("/icons/search.png") !important; */
+    background-color: #f3f2ef;
+    background-image: url("/icons/search.png") !important;
 }
 
 .leaflet-control-layers {
-    background-color: #eee6c2;
+    background-color: #f3f2ef;
 }
 
 /* .pointer-events {
@@ -109,10 +117,14 @@ h1 {
 
 @media (max-width: 575.98px) { 
     
-    #myTabContent {
-        /* overflow-y: scroll;   */
-        height: auto;
-    }
+    #info-side-bar {
+        overflow-y: scroll;  
+        left: 0px;
+        width: auto
     
+    }
 
+    ul#myTab {
+        flex-wrap: nowrap;
+    }
 }

@@ -10,12 +10,12 @@ let mainView = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/
     accessToken: "sk.eyJ1IjoiNmlsbHkiLCJhIjoiY2t6dGoxaHJlMGNzZzJvbnduZGdic2lvbyJ9.8s5meHPYaHhf-IOxa03MxA"
 }).addTo(map);
 
-let OneMapSG = L.tileLayer('https://maps-{s}.onemap.sg/v3/Original/{z}/{x}/{y}.png', {
+let nightSG = L.tileLayer('https://maps-{s}.onemap.sg/v3/Night/{z}/{x}/{y}.png', {
     minZoom: 11,
     maxZoom: 18,
     bounds: [[1.56073, 104.11475], [1.16, 103.502]],
     attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
-})
+});
 
 proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333333333 +k=1 +x_0=28001.642 +y_0=38744.572 +ellps=WGS84 +units=m +no_defs");
 
@@ -88,8 +88,8 @@ window.addEventListener("DOMContentLoaded", async function () {
             let postalCode = columns[2].innerHTML;
             let streetName = columns[3].innerHTML;
             let website = columns[6].innerHTML;
-            layer.bindPopup(`
-            
+
+            layer.bindPopup(`            
             <div class="card-body p-0 m-0 text-center">
                 <p class="card-title fs-5">${name}</p> 
                 <p class="card-subtitle fs-6"> ${addressNumber}, ${streetName}, ${postalCode}</p>
@@ -174,7 +174,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
         let listItems = document.createElement('div');
         let circle = L.circle(coordinate, 500)
 
-        listItems.innerHTML = `<class="card card-body">${each.name}</>
+        listItems.innerHTML = `<class="card card-body py-1">${each.name}</>
         `
         listItems.className = "list-result"
         listItems.addEventListener('click', function () {
@@ -189,11 +189,11 @@ document.querySelector('#myButton').addEventListener('click', function () {
     }
 })
 
-OneMapSG.addTo(tileLayers),
+nightSG.addTo(tileLayers),
     mainView.addTo(tileLayers)
 let radioButton = {
-    "Main View": mainView,
-    "MRT Lines": OneMapSG,
+    "Main": mainView,
+    "Night Mode": nightSG,
 }
 
 let layerCheckbox = {
@@ -203,7 +203,7 @@ let layerCheckbox = {
     "Community Clubs": clubLayer,
 }
 
-L.control.layers(radioButton, layerCheckbox).addTo(map);
+L.control.layers(radioButton, {}).addTo(map);
 
 let scrollDiv = document.querySelector("#mainList")
 L.DomEvent.disableScrollPropagation(scrollDiv);
@@ -221,10 +221,9 @@ document.querySelector("#enter").addEventListener("click", function () {
     let map = document.querySelector("#main-map")
     map.classList.remove("hidden")
     map.classList.add("shown")
-
-    showCurrentLocation()
 })
 
+// Modal form validation
 document.querySelector("#sendButton").addEventListener("click", function () {
     let nameEmpty = false;
     let nameTooShort = false;
@@ -263,6 +262,7 @@ document.querySelector("#sendButton").addEventListener("click", function () {
     }
 })
 
+// finding user location
 function showCurrentLocation() {
     map.locate({ setView: true, maxZoom: 16 });
     map.on('locationfound', onLocationFound);
@@ -271,11 +271,10 @@ function showCurrentLocation() {
 function onLocationFound(e) {
     layerUserLocation.clearLayers();
     map.removeLayer(layerUserLocation);
-
     let radius = 500;
     let user = L.marker(e.latlng, { icon: userIcon });
     user.addTo(layerUserLocation);
-    user.bindPopup(`You are here!`).openPopup();
+    user.bindPopup(`Carparks within 500m of you`).openPopup();
     L.circle(e.latlng, radius).addTo(layerUserLocation);
     parkingGroup.addTo(layerUserLocation)
     layerUserLocation.addTo(map)
@@ -285,20 +284,12 @@ function onLocationError(e) {
         layerUserLocation.clearLayers();
         map.removeLayer(layerUserLocation);
     }
-    alert(e.message, "Current Location not detected.");
+    alert(e.message, "Location not detected");
 }
 
-let rBtn = document.getElementsByClassName(".radio")
-for (r of rBtn) {
-    let newTile = document.getElementById("radio2").value
-    let base = document.getElementById("radio1").value
-    if (newTile == "switch-tile") {
-        tileLayers.addTo(map)
-    } else {
-    if (base == "main-tile") {
-        baseLayer.addTo(map)
-    }
-}}
+document.getElementById("nav-finder").addEventListener("click", function () {
+    showCurrentLocation()
+})
 
 let myLayers = [parkingGroup, polyLayer, clubLayer]
 let val = null
@@ -308,7 +299,7 @@ function processCheck(checkbox) {
     let checkId = checkbox.id;
     if (checkbox.checked) {
         if (val != null) {
-            map.removelayer(myLayers[val - 1]);
+            map.removeLayer(myLayers[val - 1])
             document.getElementById(val).checked = false;
         }
         myLayers[checkId - 1].addTo(map);
@@ -320,15 +311,22 @@ function processCheck(checkbox) {
     }
 }
 
-// let btn = document.getElementById('#btn-reset')
-// btn.addEventListener("click"(function(){
-//     clearAllLayers()
-//     resetMapView()
-//     document.querySelector("input[name='show-tile']").prop('checked', false)
-//     document.querySelector("input[name='show-layers']").prop('checked', false)
-// }))
+document.getElementById("reset-checkbox").addEventListener("click,", function () {
+    baseLayer.clearLayers()
+    document.querySelectorAll(".checkgroup").checked = false
+})
 
-document.querySelector('#nav-toggle').click(function () {
-    document.querySelector('#myTabContent').slideToggle()
-    document.querySelector('#tab-toggle i').classList.toggle('fa-rotate-180')
+document.getElementById("nav-toggle").addEventListener("click", function () {
+    let shown = false;
+    for (let pane of document.querySelectorAll(".tab-pane")) {
+        if (pane.classList.contains("active")) {
+            shown = true;
+        }
+    }
+    if (shown) {
+        for (let pane of document.querySelectorAll(".tab-pane")) {
+            pane.classList.remove("show");
+            pane.classList.remove("active");
+        }
+    }
 })

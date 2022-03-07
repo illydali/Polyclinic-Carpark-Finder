@@ -30,15 +30,13 @@
 <body>
   <!-- <div id="all-pages" class="container-fluid px-0"> -->
   <div id="overlay" class="m-0 p-0 mx-auto" id="home" class="shown page">
-    <div class="home row align-items-center ml-0">
+    <div class=" row align-items-center ml-0">
       <div class="mx-auto text-center px-0 ">
         <img src="icons/heart-logo.png" width="140" class="text-shadow">
         <div class="mt-3 px-3">
           <h1 class="text-white text-shadow">Got Lots?</h1>
-          <p class="text-white text-shadow">...</p>
-          <div class="input-group mb-2 mx-auto text-shadow">
-            <button id="enter" class="btn btn-success mx-auto">Enter Here</button>
-
+          <div class="mb-2 mx-auto text-shadow">
+            <button id="enter" class="btn btn-warning rounded-pill mx-auto"> Find! </button>
           </div>
         </div>
       </div>
@@ -47,7 +45,7 @@
 
   <nav class="navbar navbar-expand-sm">
     <div class="container-fluid">
-      <a class="navbar-brand light-link" id="home" href="#">Parkade
+      <a class="navbar-brand light-link" id="home" href="#"> Parkade
         <img src="icons/heart-logo.png" alt="Heart Logo" style="width:25px" />
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#my-navbar">
@@ -59,8 +57,8 @@
             <a class="nav-link" id="about" href="" data-bs-toggle="modal" data-bs-target="#about-modal">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="contact-us" href="#" data-bs-toggle="modal" data-bs-target="#form-modal">Contact
-              Us</a>
+            <a class="nav-link" id="contact-us" href="#" data-bs-toggle="modal" data-bs-target="#form-modal">Sign Up
+              </a>
           </li>
         </ul>
       </div>
@@ -70,7 +68,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="about-modal-title">Objective</h5>
+            <h5 class="modal-title" id="about-modal-title">Objectives</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
           <div class="modal-body">
@@ -88,7 +86,8 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-center mx-auto" id="form-contact-modal">Get updates!
+          <h5 class="modal-title text-center mx-auto" id="form-contact-modal">
+            Get updates!
             <br>
             Join our mailing list for upcoming features.
           </h5>
@@ -124,32 +123,31 @@
 
   <!--tab info-->
   <div class="row justify-content-left">
-    <div id="info-side-bar" class="pr-0 rounded hidden">
-
+    <div id="info-side-bar" class="px-1 rounded hidden">
       <!-- tab bar -->
-      <ul class="nav nav-tabs shadow" id="myTab" role="tablist">
+      <ul class="nav nav-tabs nav-fill shadow" id="myTab" role="tablist">
         <li class="nav-item">
-          <button class="nav-link" id="nav-poly-list" data-bs-toggle="tab" data-bs-target="#polyclinicList" href="#"
-            aria-controls="polyclinic-list" aria-selected="false"><i class="fas fa-tree"></i>Polyclinics</button>
+          <button class="nav-link" id="nav-poly-list" data-bs-toggle="tab" data-bs-target="#polyclinicList" href="#polyclinicList"
+            aria-controls="polyclinic-list" aria-selected="false"><i class="fa-solid fa-house-chimney-medical"></i></i> Polyclinics</button>
         </li>
         <li class="nav-item">
-          <button class="nav-link" id="nav-layers" data-bs-toggle="tab" data-bs-target="#selectLayers" href="#"
-            aria-controls="filter" aria-selected="false"><i class="fas fa-water"></i> Select filters </button>
+          <button class="nav-link" id="nav-layers" data-bs-toggle="tab" data-bs-target="#selectLayers" href="#selectLayers"
+            aria-controls="filter" aria-selected="false"><i class="fa-solid fa-layer-group"></i> Filters </button>
         </li>
         <li class="nav-item">
-          <button class="nav-link" id="nav-finder" data-bs-toggle="tab" data-bs-target="#finder" href="#"
-            aria-controls="search" aria-selected="false"><i class="fa-solid fa-compass"></i> Find You </button>
+          <button class="nav-link" id="nav-finder" data-bs-toggle="tab" data-bs-target="#finder" href="#finder"
+            aria-controls="search" aria-selected="false"><i class="fa-solid fa-compass"></i> Locate Me </button>
         </li>
         <li class="nav-item">
-          <button class="nav-link" id="nav-toggle" data-bs-toggle="tab" href="#" role="tab"
-            aria-controls="nav-toggle" aria-selected="false"><i class="fas fa-caret-up"></i></button>
+          <button class="nav-link" type="button" id="nav-toggle" data-bs-toggle="tab" href="#" role="tab"
+            aria-controls="nav-toggle" aria-selected="false"><i class="fa-solid fa-circle-chevron-down"></i></i></button>
         </li>
       </ul>
       <!-- tab content -->
       <div class="tab-content shadow" id="myTabContent">
 
         <!-- my polyclinic list -->
-        <div class="tab-pane fade show active" id="polyclinicList" id="search-tab" role="tabpanel" aria-labelledby="polyclinic-list-tab">
+        <div class="tab-pane fade show" id="polyclinicList" id="search-tab" role="tabpanel" aria-labelledby="polyclinic-list-tab">
           <div class="px-4 py-3">
             <button class="btn btn-sm rounded-pill btn-warning" id="myButton"> Polyclinic List</button>
             <hr>
@@ -160,33 +158,29 @@
           </div>
         </div>
 
-        <!-- Select Layers -->
+        <!-- displaying different layers -->
         <div class="tab-pane fade" id="selectLayers" role="tabpanel" aria-labelledby="nav-filter-layers">
           <div class="px-4 py-3">
-            <div class="px-5 pt-5 pb-3">
-            </div>
-            <hr class="mx-3" />
-  
             <div class="px-5">
-              <h5 class="bluetext">Select</h5>
+              <h5>Select to view all information</h5>
               <div class="pt-2">
-                <input type="checkbox" id="1" name="show-layers" value="parking-group" onchange="processCheck(this)"/> Show carparks  <br />
-              </div>
-              <div class="pt-1">
-                <input type="checkbox" id="2" name="show-layers" value="poly-layer" onchange="processCheck(this)"/> Show Polyclinics <br />
+                <input class="checkgroup" type="checkbox" id="1" name="layers" value="parking-group" onchange="processCheck(this)"/> All Carparks  <br />
               </div>
               <div class="pt-2">
-                <input type="checkbox" id="3" name="show-layers" value="community-centres" onchange="processCheck(this)"/> Show Community Clubs <br />
+                <input class="checkgroup" type="checkbox" id="2" name="layers" value="poly-layer" onchange="processCheck(this)"/> All Polyclincs <br />
+              </div>
+              <div class="pt-2">
+                <input class="checkgroup" type="checkbox" id="3" name="layers" value="community-centres" onchange="processCheck(this)"/> All Community Clubs <br />
               </div>
             </div>
-            <hr class="mx-3" />
+            <hr class="mx-1">
             <div class="px-5 pt-3 col">
-              <button id="btn-reset" class="btn btn-primary lightbrown border-white text-white ">Reset</button>
+              <button id="reset-checkbox" class="btn btn-dark border-white text-white ">Reset</button>
             </div>
           </div>
         </div>
         <!-- Get location -->
-        <div class="tab-pane fade" id="finder" role="tabpanel" aria-labelledby="nav-layers">
+        <div class="tab-pane fade" id="finder" role="tabpanel" aria-labelledby="get-location">
           
         </div>
         
@@ -194,13 +188,7 @@
     </div>
 
   </div>
-    
-  <!-- <nav class="navbar navbar-light navbar-expand-sm text-white fixed-bottom">
-    Information from data.gov.sg | developer.foursquare.com
-  </nav> -->
-
-  <!-- </div> -->
-
+  
   <!-- Leaflet -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
