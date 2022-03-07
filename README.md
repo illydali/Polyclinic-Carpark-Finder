@@ -104,8 +104,26 @@ Font for the website is from Google Fonts.
  - Black Hans Sans for Logo and Landing page.
  - DM Serif Display for website body. 
 
-# Technologies Used. 
+# Testing
+1. Test that user is able to reach map. 
+    - User is able to arrive and open map upon clicking "Enter" 
+2. Test user using sign up form.
+    - Clicks on "Sign Up" button
+    - User tries submitting empty form. 
+    - User is prompted for invalid form entries when using incorrect format.
+3. Test that user is able to locate. 
+    - Clicks on Locate tab
+    - Clicks on 'Find' button
+    - Map zooms to user location and opens carpark markers. 
+4. Test that user is able to view polyclinic info.
+    - Clicks on Polyclinic tab
+    - Tab opens list of polyclinics
+    - User selects a polyclinic
+    - Map zooms to polyclinic marker selected 
+5. Test that user is able to select layers.
 
+
+# Technologies Used
 ## Languages, Plugins and Libraries
 - HTML
 - CSS
