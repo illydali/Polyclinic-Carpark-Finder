@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <nav class="navbar navbar-expand-sm">
+  <nav class="navbar navbar-dark navbar-expand-sm">
     <div class="container-fluid">
       <a class="navbar-brand light-link" id="home" href="#"> Parkade
         <img src="icons/heart-logo.png" alt="Heart Logo" style="width:25px" />
@@ -58,7 +58,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" id="contact-us" href="#" data-bs-toggle="modal" data-bs-target="#form-modal">Sign Up
-              </a>
+            </a>
           </li>
         </ul>
       </div>
@@ -72,7 +72,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
           </div>
           <div class="modal-body">
-          For easy viewwing of available carpark locations.
+            For easy viewwing of available carpark locations.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -127,12 +127,14 @@
       <!-- tab bar -->
       <ul class="nav nav-tabs nav-fill shadow" id="myTab" role="tablist">
         <li class="nav-item">
-          <button class="nav-link" id="nav-poly-list" data-bs-toggle="tab" data-bs-target="#polyclinicList" href="#polyclinicList"
-            aria-controls="polyclinic-list" aria-selected="false"><i class="fa-solid fa-house-chimney-medical"></i></i> Polyclinics</button>
+          <button class="nav-link" id="nav-poly-list" data-bs-toggle="tab" data-bs-target="#polyclinicList"
+            href="#polyclinicList" aria-controls="polyclinic-list" aria-selected="false"><i
+              class="fa-solid fa-house-chimney-medical"></i></i> Polyclinics</button>
         </li>
         <li class="nav-item">
-          <button class="nav-link" id="nav-layers" data-bs-toggle="tab" data-bs-target="#selectLayers" href="#selectLayers"
-            aria-controls="filter" aria-selected="false"><i class="fa-solid fa-layer-group"></i> Filters </button>
+          <button class="nav-link" id="nav-layers" data-bs-toggle="tab" data-bs-target="#selectLayers"
+            href="#selectLayers" aria-controls="filter" aria-selected="false"><i class="fa-solid fa-layer-group"></i>
+            Filters </button>
         </li>
         <li class="nav-item">
           <button class="nav-link" id="nav-finder" data-bs-toggle="tab" data-bs-target="#finder" href="#finder"
@@ -140,14 +142,16 @@
         </li>
         <li class="nav-item">
           <button class="nav-link" type="button" id="nav-toggle" data-bs-toggle="tab" href="#" role="tab"
-            aria-controls="nav-toggle" aria-selected="false"><i class="fa-solid fa-circle-chevron-down"></i></i></button>
+            aria-controls="nav-toggle" aria-selected="false"><i
+              class="fa-solid fa-circle-chevron-down"></i></i></button>
         </li>
       </ul>
       <!-- tab content -->
       <div class="tab-content shadow" id="myTabContent">
 
         <!-- my polyclinic list -->
-        <div class="tab-pane fade show" id="polyclinicList" id="search-tab" role="tabpanel" aria-labelledby="polyclinic-list-tab">
+        <div class="tab-pane fade show" id="polyclinicList" id="search-tab" role="tabpanel"
+          aria-labelledby="polyclinic-list-tab">
           <div class="px-4 py-3">
             <button class="btn btn-sm rounded-pill btn-warning" id="myButton"> Polyclinic List</button>
             <hr>
@@ -164,13 +168,16 @@
             <div class="px-5">
               <h5>Select to view all information</h5>
               <div class="pt-2">
-                <input class="checkgroup" id="park" type="checkbox" name="park" value="parking-group" /> All Carparks  <br />
+                <input class="checkgroup" id="park" type="checkbox" name="park" value="parking-group" /> All Carparks
+                <br />
               </div>
               <div class="pt-2">
-                <input class="checkgroup" id="poly" type="checkbox" name="poly" value="poly-layer" /> All Polyclincs <br />
+                <input class="checkgroup" id="poly" type="checkbox" name="poly" value="poly-layer" /> All Polyclincs
+                <br />
               </div>
               <div class="pt-2">
-                <input class="checkgroup" id="club" type="checkbox" name="club" value="community-centres" /> All Community Clubs <br />
+                <input class="checkgroup" id="club" type="checkbox" name="club" value="community-centres" /> All
+                Community Clubs <br />
               </div>
             </div>
             <hr class="mx-1">
@@ -180,37 +187,37 @@
         <div class="tab-pane fade" id="finder" role="tabpanel" aria-labelledby="get-location">
           <div class="px-4 py-3">
             <hr>
-            <button id="reset" class="btn btn-warning align-center"> Reset </button>
+            <div class="text-center">
+              <button id="reset" class="btn btn-warning rounded-pill"> Reset </button>
+            </div>
             <hr>
+          </div>
         </div>
-        
       </div>
     </div>
 
-  </div>
-  
-  <!-- Leaflet -->
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
-  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster-src.js"></script>
 
-  <!-- Axios -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js"
-    integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"
-    integrity="sha512-MMmVaQGDVI3Wouc5zT5G7k/snN9gPqquIhZsHgIIHVDlRgYTYGxrwu6w482iIhAq8n5R6+pcBgpGgxFFBz7rZA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- Axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js"
+      integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"
+      integrity="sha512-MMmVaQGDVI3Wouc5zT5G7k/snN9gPqquIhZsHgIIHVDlRgYTYGxrwu6w482iIhAq8n5R6+pcBgpGgxFFBz7rZA=="
+      crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  <!-- Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-    crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"></script>
 
-  <!-- Own JS -->
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+    <!-- Own JS -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

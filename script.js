@@ -284,7 +284,7 @@ function onLocationError(e) {
         layerUserLocation.clearLayers();
         map.removeLayer(layerUserLocation);
     }
-    alert(e.message, "Location not detected");
+    alert(e.message,"Location not detected");
 }
 
 document.getElementById("nav-finder").addEventListener("click", function () {
