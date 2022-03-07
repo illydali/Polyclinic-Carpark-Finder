@@ -98,10 +98,11 @@ window.addEventListener("DOMContentLoaded", async function () {
             let website = columns[6].innerHTML;
 
             layer.bindPopup(`            
-            <div class="card-body p-0 m-0 text-center">
+            <div class="card-body p-0 m-0">
+            <img src="icons/clublogo.png"/>
                 <p class="card-title fs-5">${name}</p> 
                 <p class="card-subtitle fs-6"> ${addressNumber}, ${streetName}, ${postalCode}</p>
-                <a href="#" class="card-link fs-6 fst-italic text-reset" >${website}</a>
+                <a href="${{website}}" class="card-link fs-6 fst-italic text-reset">${website}</a>
             </div>`)
         }
 
