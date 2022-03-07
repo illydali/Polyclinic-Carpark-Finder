@@ -291,39 +291,64 @@ document.getElementById("nav-finder").addEventListener("click", function () {
     showCurrentLocation()
 })
 
-let myLayers = [parkingGroup, polyLayer, clubLayer]
-let val = null
-function processCheck(checkbox) {
+let checkboxes = document.querySelectorAll(".checkgroup");
 
-    baseLayer.clearLayers()
-    let checkId = checkbox.id;
-    if (checkbox.checked) {
-        if (val != null) {
-            map.removeLayer(myLayers[val - 1])
-            document.getElementById(val).checked = false;
+for (each of checkboxes) {
+    each.addEventListener("click", function () {
+        let val = (this.value)
+        // console.log(val)
+        if (val == "parking-group") {
+            if (document.getElementById("park").checked) {
+                parkingGroup.addTo(map)
+            } else map.removeLayer(parkingGroup) 
+        } if (val == "poly-layer") {
+            if (document.getElementById("poly").checked) {
+                polyLayer.addTo(map)
+            } else map.removeLayer(polyLayer)
+        } else if (val == "community-centres") {
+            if (document.getElementById("club").checked) {
+                clubLayer.addTo(map)
+            } else map.removeLayer(clubLayer)
         }
-        myLayers[checkId - 1].addTo(map);
-        val = checkId;
-    }
-    else {
-        map.removeLayer(myLayers[checkId - 1]);
-        val = null;
-    }
+    })
 }
 
+// let myLayers = [parkingGroup, polyLayer, clubLayer]
+// let val = null
+// function processCheck(checkbox) {
+
+//     baseLayer.clearLayers()
+//     let checkId = checkbox.id;
+//     if (checkbox.checked) {
+//         if (val != null) {
+//             map.removeLayer(myLayers[val - 1])
+//             document.getElementById(val).checked = false;
+//         }
+//         myLayers[checkId - 1].addTo(map);
+//         val = checkId;
+//     }
+//     else {
+//         map.removeLayer(myLayers[checkId - 1]);
+//         val = null;
+//     }
+// }
+
 document.getElementById("reset-checkbox").addEventListener("click,", function () {
-    baseLayer.clearLayers()
-    document.querySelectorAll(".checkgroup").checked = false
+    // baseLayer.clearLayers()
+    // document.querySelectorAll(".checkgroup").each(function () {
+    //     this.checked = false
+    // })
+    console.log("here")
 })
 
 document.getElementById("nav-toggle").addEventListener("click", function () {
-    let shown = false;
+    let isShown = false;
     for (let pane of document.querySelectorAll(".tab-pane")) {
         if (pane.classList.contains("active")) {
-            shown = true;
+            isShown = true;
         }
     }
-    if (shown) {
+    if (isShown) {
         for (let pane of document.querySelectorAll(".tab-pane")) {
             pane.classList.remove("show");
             pane.classList.remove("active");
