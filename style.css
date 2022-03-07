@@ -34,7 +34,7 @@ h1{
     height: 100vh;
 }
 .navbar {
-    background-color: #F5F5F5 !important;
+    background-color: #F5F5F5(228, 230, 223) !important;
 }
 .navbar-dark .navbar-toggler {
     border: 1px solid; 
@@ -53,6 +53,10 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
     color: #050234 !important;
 }
 
+.nav-tabs .nav-link.active {
+    border-color: none;
+}
+
 .hidden {
     transform: translateY(100%);
     transition: transform 1s;
@@ -63,34 +67,25 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
     transition: transform 1s;
 }
 
-/* leaflet edits */
-/* .leaflet-popup-content-wrapper, .leaflet-popup-tip{
-    background-color: lightgoldenrodyellow;
-    margin: 0;
-    
-} */
-
 .leaflet-popup-content{   
     color:#002640;
 }
 
 .leaflet-control-layers-toggle {
     font-family: 'DM Serif Display', serif !important;
-    font-size: 12px;
-    background-color: #f3f2ef;
+    font-size: 10px;
+    background-color: #F5F5F5;
     background-image: url("/icons/click.png") !important;
 }
 
 .leaflet-control-layers {
-    background-color: #f3f2ef;
+    background-color: #F5F5F5;
 }
 
-/* bootstrap edits */
 .card {
-    /* background-color:  lightgoldenrodyellow  !important; */
     border: 0;
     font-family: 'DM Serif Display', serif !important;
-    
+    background-color: #F5F5F5;
 }
 
 #mainList {
@@ -102,7 +97,6 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
 #infoBar{
     background-color: #F5F5F5;
     font-family: 'DM Serif Display', serif !important;
-    /* z-index: 1030; */
     position: absolute;
     width: auto;
     max-height: 300px;
@@ -110,7 +104,11 @@ background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/s
     bottom: 30px;
 }
 
+#myTabContent {
+    height: 200px;
+}
 
+/* resize info bar for x-sm device  */
 @media (max-width: 575.98px) { 
     
     #infoBar {

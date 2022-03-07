@@ -1,6 +1,7 @@
 let singapore = [1.36, 103.85];
 let map = L.map("main-map").setView(singapore, 14);
 
+// setting up map
 let mainView = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
@@ -21,7 +22,7 @@ proj4.defs("EPSG:3414", "+proj=tmerc +lat_0=1.366666666666667 +lon_0=103.8333333
 
 // setting up icons
 let polyIcon = L.icon({
-    iconUrl: '/icons/clinic.svg',
+    iconUrl: '/icons/clinic-final.svg',
     iconSize: [40, 40],
     popupAnchor: [0, 0]
 });
@@ -38,8 +39,10 @@ let userIcon = L.icon({
     popupAnchor: [0, 0]
 })
 
-let ccInfo = L.icon({
-    iconSize: [40, 40]
+let clubIcon = L.icon({
+    iconUrl: '/icons/cclub.svg',
+    iconSize: [40, 40],
+    popupAnchor: [0, 0]
 })
 
 // setting up layers
@@ -78,6 +81,11 @@ window.addEventListener("DOMContentLoaded", async function () {
 
     let geoClubFeature = await loadClubInfo();
     clubLayer = new L.geoJson(geoClubFeature, {
+        pointToLayer: function(feature, latlng) {
+            return new L.Marker(latlng, {
+                icon: clubIcon
+            });
+        },
         onEachFeature: function (feature, layer) {
             let newDiv = document.createElement("div");
 
@@ -157,7 +165,8 @@ window.addEventListener("DOMContentLoaded", async function () {
     parkingGroup.addTo(baseLayer);
 })
 
-document.querySelector('#myButton').addEventListener('click', function () {
+// searching for polyclinic information and adding to list.
+document.querySelector('#myButton').addEventListener("click", function () {
     searchResult.clearLayers();
     baseLayer.clearLayers()
 
@@ -177,7 +186,7 @@ document.querySelector('#myButton').addEventListener('click', function () {
         listItems.innerHTML = `<class="card card-body py-1">${each.name}</>
         `
         listItems.className = "list-result"
-        listItems.addEventListener('click', function () {
+        listItems.addEventListener("click", function () {
             circle.addTo(searchResult)
             parkingGroup.addTo(searchResult)
             map.flyTo(coordinate, 17);
@@ -208,6 +217,7 @@ L.control.layers(radioButton, {}).addTo(map);
 let scrollDiv = document.querySelector("#mainList")
 L.DomEvent.disableScrollPropagation(scrollDiv);
 
+// load homepage upon opening app/website
 document.querySelector("#enter").addEventListener("click", function () {
     let info = document.querySelector("#infoBar");
     info.style = "z-index: 1030"
@@ -223,7 +233,7 @@ document.querySelector("#enter").addEventListener("click", function () {
     map.classList.add("shown")
 })
 
-// Modal form validation
+// sign up form validation
 document.querySelector("#sendButton").addEventListener("click", function () {
     let nameEmpty = false;
     let nameTooShort = false;
@@ -268,17 +278,21 @@ function showCurrentLocation() {
     map.on('locationfound', onLocationFound);
     map.on('locationerror', onLocationError);
 }
+
+// get user location, circle to indicate 500m radius, show carpark icons
 function onLocationFound(e) {
     layerUserLocation.clearLayers();
     map.removeLayer(layerUserLocation);
     let radius = 500;
     let user = L.marker(e.latlng, { icon: userIcon });
     user.addTo(layerUserLocation);
-    user.bindPopup(`You are currently here`).openPopup();
+    user.bindPopup(`You are here`).openPopup();
     L.circle(e.latlng, radius).addTo(layerUserLocation);
     parkingGroup.addTo(layerUserLocation)
     layerUserLocation.addTo(map)
 }
+
+// handle location error
 function onLocationError(e) {
     if (map.hasLayer(layerUserLocation)) {
         layerUserLocation.clearLayers();
@@ -287,12 +301,19 @@ function onLocationError(e) {
     alert(e.message,"Location not detected");
 }
 
-document.getElementById("nav-finder").addEventListener("click", function () {
+document.getElementById("showLocation").addEventListener("click", function () {
     showCurrentLocation()
 })
 
 document.getElementById("reset").addEventListener("click", function () {
     map.removeLayer(layerUserLocation)
+})
+
+// filter tab
+document.getElementById("nav-layers").addEventListener("click", function (){
+    map.removeLayer(searchResult)
+    map.removeLayer(layerUserLocation)
+    map.setView(singapore,14)
 })
 
 let checkboxes = document.querySelectorAll(".checkgroup");
@@ -316,6 +337,7 @@ for (each of checkboxes) {
     })
 }
 
+// close tab
 document.getElementById("nav-toggle").addEventListener("click", function () {
     let isShown = false;
     for (let pane of document.querySelectorAll(".tab-pane")) {
