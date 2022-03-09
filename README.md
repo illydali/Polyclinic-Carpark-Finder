@@ -28,9 +28,6 @@ high number of visitors and the ratio in providing parking space is
 sadly, unmatched. Utilizing real time location finder eases and
 reduces the waiting game to a fraction. 
 
-## Site Owner Goals
-Parking space has an adverse effect to the business operation. 
-The faster a user gets to their appointment, the smoother the business operation shall be!
 - Navigate the platform with ease
 - Find the desired polyclinic
 - Discover nearby community center
@@ -40,9 +37,6 @@ The faster a user gets to their appointment, the smoother the business operation
 - As a user, I want to to know which carpark nearest to a polyclinic (or community club) I am visiting 
 has the most number of lots available. 
 - As a user, I need a quick and fast way to search for alternate carpark locations when the need arises.
-
-
-<!-- Testing was done using chrome developer tool across iPhone X, Galaxy S5, iPad, iPad Pro, 13-inch MacBook Air -->
 
 # Scope 
 ## Functional
