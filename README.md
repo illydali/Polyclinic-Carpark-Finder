@@ -9,7 +9,7 @@ This project is based on the five planes of UI/UX
 - Surface
 
 # Live URL 
-The site can be accessed here- https://relaxed-poincare-48f513.netlify.app/.
+The site can be accessed here- https://parkade.netlify.app/.
 
 
 # Strategy 
